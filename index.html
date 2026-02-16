@@ -533,24 +533,52 @@ footer p{font-size:.9rem;color:var(--gray);letter-spacing:1px}
   <h2 class="sec-title">We Develop Every Position</h2>
   <p class="mechanics-detail" style="margin-bottom:3rem">Each position has unique mechanics, responsibilities, and decision-making requirements. We train them all with the specificity they deserve.</p>
 
-  <div class="formation-row">
-    <div class="pos-card"><h4>Center Backs</h4><p>Reading the game, build-up, 1v1 defending</p></div>
-    <div class="pos-card"><h4>Full Backs</h4><p>Overlapping, crossing, defensive recovery</p></div>
+  <div style="position:relative;max-width:750px;margin:0 auto;height:620px">
+    <!-- Field markings -->
+    <!-- Outer border -->
+    <div style="position:absolute;top:0;left:0;right:0;bottom:0;border:1px solid rgba(26,107,60,0.2);border-radius:4px"></div>
+    <!-- Halfway line -->
+    <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(26,107,60,0.15)"></div>
+    <!-- Center circle -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;border:1px solid rgba(26,107,60,0.12);border-radius:50%"></div>
+    <!-- Penalty box (bottom) -->
+    <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:18%;border:1px solid rgba(26,107,60,0.15);border-bottom:none;border-radius:0"></div>
+    <!-- Goal box (bottom) -->
+    <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:30%;height:8%;border:1px solid rgba(26,107,60,0.12);border-bottom:none;border-radius:0"></div>
+    <!-- Penalty box (top) -->
+    <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:18%;border:1px solid rgba(26,107,60,0.15);border-top:none;border-radius:0"></div>
+    <!-- Goal box (top) -->
+    <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:30%;height:8%;border:1px solid rgba(26,107,60,0.12);border-top:none;border-radius:0"></div>
+
+    <!-- Striker - top center -->
+    <div class="pos-card" style="position:absolute;top:6%;left:50%;transform:translateX(-50%)"><h4>Striker (The "9")</h4><p>Finishing, movement, hold-up play</p></div>
+
+    <!-- Wingers - wide, slightly below striker -->
+    <div class="pos-card" style="position:absolute;top:18%;left:3%"><h4>Winger</h4><p>1v1, crossing, cutting inside</p></div>
+    <div class="pos-card" style="position:absolute;top:18%;right:3%"><h4>Winger</h4><p>1v1, crossing, cutting inside</p></div>
+
+    <!-- Attacking Mid - between wingers and center mid -->
+    <div class="pos-card" style="position:absolute;top:33%;left:35%;transform:translateX(-50%)"><h4>Attacking Mid (The "10")</h4><p>Final pass, creativity, shooting</p></div>
+
+    <!-- Center Mid - right of center -->
+    <div class="pos-card" style="position:absolute;top:48%;right:12%"><h4>Center Mid (The "8")</h4><p>Box-to-box, rotations, transitions</p></div>
+
+    <!-- Defensive Mid - center, below center mid -->
+    <div class="pos-card" style="position:absolute;top:60%;left:50%;transform:translateX(-50%)"><h4>Defensive Mid (The "6")</h4><p>Shielding, distribution, game control</p></div>
+
+    <!-- Full Backs - wide at the back -->
+    <div class="pos-card" style="position:absolute;top:75%;left:3%"><h4>Full Back</h4><p>Overlapping, crossing, recovery</p></div>
+    <div class="pos-card" style="position:absolute;top:75%;right:3%"><h4>Full Back</h4><p>Overlapping, crossing, recovery</p></div>
+
+    <!-- Center Backs - paired in the middle -->
+    <div class="pos-card" style="position:absolute;top:86%;left:32%;transform:translateX(-50%)"><h4>Center Back</h4><p>Reading the game, build-up</p></div>
+    <div class="pos-card" style="position:absolute;top:86%;right:32%;transform:translateX(50%)"><h4>Center Back</h4><p>1v1 defending, aerial duels</p></div>
   </div>
-  <div class="formation-row">
-    <div class="pos-card"><h4>Defensive Mid</h4><p>Shielding, distribution, game control</p></div>
-    <div class="pos-card"><h4>Center Mid</h4><p>Box-to-box, rotations, transitions</p></div>
-    <div class="pos-card"><h4>Attacking Mid</h4><p>Final pass, creativity, shooting</p></div>
-  </div>
-  <div class="formation-row">
-    <div class="pos-card"><h4>Wingers</h4><p>1v1, crossing, cutting inside</p></div>
-    <div class="pos-card"><h4>Striker</h4><p>Finishing, movement, hold-up play</p></div>
-  </div>
+  <p class="cred-note" style="max-width:700px;margin:2.5rem auto 0">What you see above is just the starting point. Each position involves layers of coordination with teammates, tactical awareness, and situational decision-making that we develop through training.</p>
 </section>
 
 <div class="divider"><div class="divider-line"></div></div>
 
-<!-- Practice Structure -->
 <section class="sec">
   <p class="sec-label">Training Structure</p>
   <h2 class="sec-title">What Practice Looks Like</h2>
