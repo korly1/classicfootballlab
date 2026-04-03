@@ -52,8 +52,10 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-## GitHub Pages (static stub)
+## GitHub Pages (static marketing site)
 
-If the repo uses **GitHub Pages** from the **`main`** branch and **root** (`/`), the site serves [index.html](index.html) at the Pages URL (for example `https://<user>.github.io/<repo>/`). That file is a small landing page with a link to the full app at **https://lab.football** (see [`.env.example`](.env.example) `NEXT_PUBLIC_APP_URL`). The Next.js marketing routes under `src/app/(public)/` are built for Vercel (or `next start`), not for GitHub’s static host unless you add an export workflow.
+If the repo uses **GitHub Pages** from the **`main`** branch and **root** (`/`), the published site is the full static landing in [index.html](index.html) (for example at `https://<user>.github.io/<repo>/` or a custom domain such as **lab.football**). That single-file page is the canonical public site until the Next.js app is deployed (e.g. Vercel) and DNS is pointed at it.
 
-After pushing, confirm in the repo **Settings → Pages** which branch/folder is published, then open the Pages URL in a private window to verify it loads.
+The Next.js marketing routes under `src/app/(public)/` are the in-repo source to evolve toward; they are not what GitHub Pages serves unless you add a static export or CI workflow later.
+
+After pushing, confirm in the repo **Settings → Pages** which branch/folder is published, then open the site URL in a private window to verify it loads.

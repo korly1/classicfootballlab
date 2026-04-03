@@ -1,34 +1,661 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Classic Football Lab — Santa Clarita, CA</title>
-  <link rel="canonical" href="https://lab.football/">
-  <style>
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: #0a1128;
-      color: #c5cdd9;
-      min-height: 100vh;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-    }
-    a { color: #d4a843; }
-    h1 { color: #f5f2eb; letter-spacing: 0.08em; font-weight: 600; font-size: 1.75rem; }
-    p { line-height: 1.6; max-width: 28rem; margin-left: auto; margin-right: auto; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<title>Classic Football Lab | Brazilian Lab of Football — Santa Clarita, CA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a1128;
+  --navy-light: #101d3a;
+  --green: #1a6b3c;
+  --green-light: #228B22;
+  --gold: #d4a843;
+  --gold-bright: #f0c95a;
+  --white: #f5f2eb;
+  --white-pure: #ffffff;
+  --gray: #8a9ab5;
+  --text-body: #c5cdd9;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Bebas Neue',sans-serif;background:var(--navy);color:var(--text-body);overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+
+/* ========== NAV ========== */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,17,40,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(212,168,67,0.1);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;transition:all 0.3s ease}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--white);letter-spacing:3px;cursor:pointer;display:flex;align-items:center;gap:.6rem}
+.nav-logo-img{height:40px;width:auto}
+.nav-logo-text{color:var(--white);letter-spacing:3px}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-link{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--gray);text-decoration:none;cursor:pointer;padding:0.3rem 0;border-bottom:2px solid transparent;transition:all 0.3s ease}
+.nav-link:hover,.nav-link.active{color:var(--gold);border-bottom-color:var(--gold)}
+.nav-cta{font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:2px;padding:0.5rem 1.5rem;background:var(--green);color:var(--white-pure);text-decoration:none;transition:all 0.3s ease}
+.nav-cta:hover{background:var(--gold);color:var(--navy)}
+
+/* Mobile nav */
+.nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}
+.nav-toggle span{width:24px;height:2px;background:var(--white);transition:all 0.3s ease}
+@media(max-width:768px){
+  .nav-links{position:fixed;top:60px;left:0;right:0;background:rgba(10,17,40,0.97);flex-direction:column;padding:2rem;gap:1.5rem;transform:translateY(-120%);transition:transform 0.3s ease}
+  .nav-links.open{transform:translateY(0)}
+  .nav-toggle{display:flex}
+}
+
+/* ========== PAGE CONTAINERS ========== */
+.page{display:none}
+.page.active{display:block}
+
+/* ========== HERO ========== */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;padding:2rem;padding-top:80px;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(26,107,60,0.15) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(26,58,107,0.15) 0%,transparent 50%),radial-gradient(ellipse at 50% 50%,rgba(212,168,67,0.05) 0%,transparent 60%);animation:heroGlow 12s ease-in-out infinite alternate}
+@keyframes heroGlow{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-2%,-1%) scale(1.05)}}
+.field-lines{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80vw;height:80vh;max-width:900px;max-height:600px;border:1px solid rgba(255,255,255,0.03);pointer-events:none}
+.field-lines::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(255,255,255,0.03)}
+.field-lines::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px;border:1px solid rgba(255,255,255,0.03);border-radius:50%}
+.hero-content{position:relative;z-index:2}
+.hero-badge{display:inline-block;padding:0.4rem 1.5rem;border:1px solid var(--gold);color:var(--gold);font-size:1rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:1.2rem;opacity:0;animation:fadeUp .8s ease forwards .3s}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,10vw,8rem);line-height:.9;color:var(--white);letter-spacing:2px;margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s ease forwards .5s}
+.hero h1 .accent{color:var(--gold);display:block;font-size:.5em;letter-spacing:6px}
+.hero-subtitle{font-size:clamp(1.1rem,2.5vw,1.4rem);color:var(--gray);letter-spacing:3px;text-transform:uppercase;margin-bottom:3rem;opacity:0;animation:fadeUp .8s ease forwards .7s}
+.hero-quote{font-family:'Barlow',sans-serif;font-size:clamp(1.3rem,2.5vw,1.7rem);color:var(--gold);max-width:650px;margin:1.5rem auto 3.5rem;line-height:1.6;font-weight:300;font-style:italic;opacity:0;animation:fadeUp .8s ease forwards 1.3s;position:relative;padding:0 1.5rem}
+.hero-tagline{font-family:'Barlow',sans-serif;font-size:clamp(1.1rem,2vw,1.4rem);color:var(--text-body);max-width:600px;margin:0 auto 2rem;line-height:1.7;font-weight:300;opacity:0;animation:fadeUp .8s ease forwards .7s}
+.hero-cta{display:inline-block;padding:1rem 3rem;background:linear-gradient(135deg,var(--green),var(--green-light));color:var(--white-pure);text-decoration:none;font-size:1.3rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden;opacity:0;animation:fadeUp .8s ease forwards 1.1s}
+.hero-cta::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(135deg,var(--gold),var(--gold-bright));transition:left .4s ease}
+.hero-cta:hover::before{left:0}
+.hero-cta span{position:relative;z-index:1}
+.scroll-indicator{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:fadeUp .8s ease forwards 1.5s}
+.scroll-indicator span{font-size:.8rem;letter-spacing:3px;text-transform:uppercase;color:var(--gray)}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:.3;transform:scaleY(.5)}50%{opacity:1;transform:scaleY(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* ========== SHARED SECTION STYLES ========== */
+.sec{padding:6rem 2rem;max-width:1100px;margin:0 auto}
+.sec-label{font-size:1rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:var(--white);line-height:1;margin-bottom:2rem}
+.divider{max-width:1100px;margin:0 auto;padding:0 2rem}
+.divider-line{height:1px;background:linear-gradient(to right,transparent,rgba(212,168,67,0.3),transparent)}
+.body-text{font-family:'Barlow',sans-serif;font-size:1.15rem;line-height:1.9;font-weight:300;max-width:800px}
+.body-text p{margin-bottom:1.5rem}
+.highlight{color:var(--gold);font-weight:500}
+
+/* ========== PROBLEM ========== */
+.problem-list{list-style:none;padding:1.5rem 0;border-left:2px solid var(--green);margin:2rem 0}
+.problem-list li{font-family:'Barlow',sans-serif;padding:.5rem 0 .5rem 1.5rem;font-size:1rem;color:var(--gray);position:relative}
+.problem-list li::before{content:'×';position:absolute;left:-.65rem;color:var(--gold);font-weight:700;font-size:1.1rem;background:var(--navy);padding:0 .2rem}
+
+/* ========== APPROACH CARDS ========== */
+.approach{position:relative}
+.approach::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 80% 30%,rgba(26,107,60,0.08) 0%,transparent 60%);pointer-events:none}
+.approach-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem}
+.card{padding:2.5rem;background:linear-gradient(135deg,rgba(16,29,58,0.8),rgba(10,17,40,0.8));border:1px solid rgba(212,168,67,0.1);position:relative;transition:all .4s ease}
+.card:hover{border-color:rgba(212,168,67,0.3);transform:translateY(-4px)}
+.card::before{content:'';position:absolute;top:0;left:0;width:3px;height:40px;background:var(--gold)}
+.card h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--white);letter-spacing:1px;margin-bottom:1rem}
+.card p{font-family:'Barlow',sans-serif;font-size:.95rem;line-height:1.7;font-weight:300}
+
+/* ========== MECHANICS ========== */
+.mechanics{position:relative;text-align:center}
+.mechanics-quote{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,4vw,3rem);color:var(--white);line-height:1.2;margin:2rem 0 1rem}
+.mechanics-quote .gold{color:var(--gold)}
+.mechanics-detail{font-family:'Barlow',sans-serif;font-size:1rem;line-height:1.8;max-width:700px;margin:0 auto 3rem;font-weight:300}
+.tag-list{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;max-width:800px;margin:0 auto}
+.tag{padding:.6rem 1.4rem;border:1px solid rgba(26,107,60,0.4);font-size:1rem;letter-spacing:2px;text-transform:uppercase;color:var(--gray);transition:all .3s ease}
+.tag:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ========== CREDENTIALS ========== */
+.cred-clubs{display:flex;flex-wrap:wrap;gap:.8rem;margin:2rem 0}
+.club-tag{padding:.5rem 1.2rem;background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.2);font-size:1rem;letter-spacing:1px;color:var(--gold);text-transform:uppercase}
+.cred-note{font-family:'Barlow',sans-serif;font-size:1.05rem;line-height:1.8;font-weight:300;max-width:700px;margin-top:2rem;font-style:italic;color:var(--gray);border-left:2px solid var(--gold);padding-left:1.5rem}
+
+/* ========== METHOD STEPS ========== */
+.method-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:3rem 0;border:1px solid rgba(212,168,67,0.15)}
+.method-step{padding:2.5rem 1.5rem;text-align:center;border-right:1px solid rgba(212,168,67,0.1);transition:background .3s ease}
+.method-step:last-child{border-right:none}
+.method-step:hover{background:rgba(26,107,60,0.08)}
+.step-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--green);line-height:1;margin-bottom:.5rem}
+.method-step h4{font-size:1.1rem;letter-spacing:2px;text-transform:uppercase;color:var(--white);margin-bottom:.8rem}
+.method-step p{font-family:'Barlow',sans-serif;font-size:.85rem;line-height:1.6;font-weight:300;color:var(--gray)}
+
+/* ========== PERSONAL ========== */
+.personal-content{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.personal-story{font-family:'Barlow',sans-serif;font-size:1.05rem;line-height:1.9;font-weight:300}
+.personal-story p{margin-bottom:1.5rem}
+.personal-aside{padding:2.5rem;background:linear-gradient(135deg,rgba(26,107,60,0.1),rgba(16,29,58,0.5));border:1px solid rgba(26,107,60,0.2)}
+.personal-aside h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--white);margin-bottom:1.5rem}
+.aside-item{margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05)}
+.aside-item:last-child{border-bottom:none}
+.aside-item .label{font-size:.85rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
+.aside-item .value{font-family:'Barlow',sans-serif;font-size:.95rem;color:var(--white);font-weight:400}
+
+/* ========== CTA ========== */
+.cta-section{text-align:center;padding:8rem 2rem;position:relative}
+.cta-section::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 50%,rgba(26,107,60,0.12) 0%,transparent 60%),radial-gradient(ellipse at 50% 80%,rgba(212,168,67,0.06) 0%,transparent 50%);pointer-events:none}
+.cta-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,6vw,5rem);color:var(--white);line-height:1;margin-bottom:1.5rem;position:relative}
+.cta-sub{font-family:'Barlow',sans-serif;font-size:1.15rem;font-weight:300;max-width:500px;margin:0 auto 3rem;line-height:1.7;position:relative}
+.cta-button{display:inline-block;padding:1.2rem 4rem;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--navy);text-decoration:none;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;text-transform:uppercase;transition:all .3s ease;position:relative}
+.cta-button:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,168,67,0.3)}
+.cta-note{font-family:'Barlow',sans-serif;margin-top:2rem;font-size:.85rem;color:var(--gray);font-style:italic;position:relative}
+
+/* ========== FOOTER ========== */
+footer{text-align:center;padding:3rem 2rem;border-top:1px solid rgba(255,255,255,0.05)}
+.footer-name{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--gold);letter-spacing:3px;margin-bottom:.5rem}
+footer p{font-size:.9rem;color:var(--gray);letter-spacing:1px}
+
+/* ========== HOW IT WORKS PAGE ========== */
+.page-header{padding:8rem 2rem 4rem;text-align:center;position:relative}
+.page-header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(26,107,60,0.1) 0%,transparent 60%);pointer-events:none}
+.page-header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5rem);color:var(--white);letter-spacing:3px;position:relative}
+.page-header .subtitle{font-family:'Barlow',sans-serif;font-size:1.1rem;color:var(--gray);margin-top:1rem;font-weight:300;position:relative;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7}
+
+/* Path selector */
+.path-selector{display:flex;gap:2rem;justify-content:center;margin:3rem 0}
+.path-btn{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;padding:1rem 2.5rem;background:transparent;border:1px solid rgba(212,168,67,0.2);color:var(--gray);cursor:pointer;transition:all .3s ease}
+.path-btn:hover{border-color:var(--gold);color:var(--gold)}
+.path-btn.active{background:rgba(212,168,67,0.1);border-color:var(--gold);color:var(--gold)}
+
+/* Timeline / Process */
+.process-timeline{max-width:700px;margin:0 auto;position:relative;padding-left:40px}
+.process-timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--gold),var(--green),transparent)}
+.timeline-step{position:relative;margin-bottom:3rem}
+.timeline-dot{position:absolute;left:-33px;top:5px;width:12px;height:12px;border:2px solid var(--gold);border-radius:50%;background:var(--navy)}
+.timeline-step.active-step .timeline-dot{background:var(--gold)}
+.timeline-step h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--white);letter-spacing:2px;margin-bottom:.5rem}
+.timeline-step p{font-family:'Barlow',sans-serif;font-size:1rem;line-height:1.7;font-weight:300;color:var(--gray)}
+
+/* Endpoint box */
+.endpoint-box{max-width:700px;margin:2rem auto;padding:2rem;border:1px solid rgba(26,107,60,0.3);background:rgba(26,107,60,0.05)}
+.endpoint-box h4{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--gold);letter-spacing:2px;margin-bottom:.8rem}
+.endpoint-box p{font-family:'Barlow',sans-serif;font-size:.95rem;line-height:1.7;font-weight:300;color:var(--gray)}
+
+/* ========== THE METHOD PAGE ========== */
+.philosophy-block{max-width:800px;margin:0 auto 4rem;text-align:center}
+.philosophy-block .quote{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.5rem,3.5vw,2.5rem);color:var(--white);line-height:1.2;margin-bottom:1rem}
+.philosophy-block .quote .gold{color:var(--gold)}
+
+/* Principles grid */
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:1000px;margin:0 auto 4rem}
+.principle{padding:2rem;border-left:3px solid var(--green);background:rgba(16,29,58,0.4)}
+.principle .num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--green);line-height:1;margin-bottom:.3rem}
+.principle h3{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--white);letter-spacing:1px;margin-bottom:.5rem}
+.principle p{font-family:'Barlow',sans-serif;font-size:.9rem;line-height:1.6;font-weight:300;color:var(--gray)}
+
+/* Phase sections */
+.phase-section{max-width:900px;margin:0 auto 4rem}
+.phase-label{display:inline-block;padding:.3rem 1rem;background:rgba(212,168,67,0.1);border:1px solid rgba(212,168,67,0.2);font-size:.85rem;letter-spacing:2px;color:var(--gold);margin-bottom:1rem}
+.phase-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,3vw,2.5rem);color:var(--white);margin-bottom:1.5rem}
+.phase-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem}
+.phase-item{padding:1.5rem;border:1px solid rgba(255,255,255,0.05);background:rgba(16,29,58,0.3);transition:all .3s ease}
+.phase-item:hover{border-color:rgba(212,168,67,0.2)}
+.phase-item h4{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--white);letter-spacing:1px;margin-bottom:.5rem}
+.phase-item p{font-family:'Barlow',sans-serif;font-size:.85rem;line-height:1.5;font-weight:300;color:var(--gray)}
+
+/* Position cards for formations */
+.formation-row{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.pos-card{padding:1.2rem 2rem;border:1px solid rgba(26,107,60,0.3);background:rgba(26,107,60,0.05);text-align:center;min-width:140px}
+.pos-card h4{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gold);letter-spacing:1px;margin-bottom:.3rem}
+.pos-card p{font-family:'Barlow',sans-serif;font-size:.8rem;color:var(--gray);font-weight:300}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:768px){
+  .approach-grid,.principles{grid-template-columns:1fr}
+  .method-steps{grid-template-columns:1fr 1fr}
+  .method-step{border-bottom:1px solid rgba(212,168,67,0.1)}
+  .personal-content{grid-template-columns:1fr;gap:2rem}
+  .phase-grid{grid-template-columns:1fr}
+  .sec{padding:4rem 1.5rem}
+  .field-lines{display:none}
+  .path-selector{flex-direction:column;align-items:center;gap:1rem}
+}
+@media(max-width:480px){
+  .method-steps{grid-template-columns:1fr}
+  .hero{padding:1.5rem;padding-top:80px}
+}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(0.16,1,0.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
 </head>
 <body>
-  <div>
-    <h1>Classic Football Lab</h1>
-    <p>Brazilian Lab of Football — Santa Clarita, CA</p>
-    <p>The full site runs on our app host. If you are not redirected automatically, open the link below.</p>
-    <p><a href="https://lab.football/">Continue to lab.football →</a></p>
+
+<!-- ===== NAV ===== -->
+<nav class="site-nav">
+  <div class="nav-logo" onclick="showPage('home')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAoCAYAAACfKfiZAAANiklEQVR4nJ1YaXRVVZb+9jnnvjEhE4QhIASUJQYRTAAZhEB11VKwKS18TyYFTQsFTrhae5Vt2+897RbX0m61LHFBNRRTAPMcWmqBtlidCCJJikkEtFHAoIkhAyHDy3vv3nvO7h8xLsCx+/tz1zr37P3ts+++ezjAzwAzqKIiJC9fr664+5r925fMuny9oiIkmUE/R/ePbupVQgQGgANrllrFDQP13qITeUMyA8Fz7c5iEpiQ28fz27ZkEuOPXF1fVQoxY0bM/T75n21AjyCDiBgAPqwoyxVIL7ghvOUPALD3tbuHZwj3ZcDMZMNKSnms2zUPTQqVVwFAbXzRfS57t00Orzvfo48JoO815Ec9sD++aCKBBgg2BQzMl0Ls1IYbJ4a3bNhbvmB40Eencvp40Xg+feekO8q3VL965z0kkQ/XzCaBbYZEPYMbJ4W21PwQh/ruyYG/xu8ZaWvXFaxvZ8NBA/oy4JeDUrYeoRS9xQw6EFdT067+55YL7udS0JjKyHQFMtXE9LDPrwZ1J3WWgRltCZP4YNtdLR6p1fhQ+cnLP4m41J6QIAIzUgs8Qi9npnPBoDVbSEHacJUANxb/ZvMnROCUE/zzpDvKnxof2rTNBHNWlUZLzQ3h8hNCUKM2XCWkoMygNVuzPOcRZjmDF/QQhy7hpIuevKci1M8D7woJnGHCy0pZUbAuFALOm4cLH43FYu6BNUut4qVrDBHpixVVVITk8LYcUbJsrROJRNRt4848awxbIHXGdZ0oMe7TQKGN9Opp4XhzL6f4xvU97vBkpgTM8jTLAAGvBDx8SyKtXxt766aHS0urwFypSpatdb4hlzW7n86r2f1SXiQyXYXDcV2ybK3DlRFVWlqFsbduejiRFq8FPHwLAa+kWQYEzHLhyUxdzElcEZJxAEPZ94TLZqcl8VDAq27otvUH9Z1y5W13b7yw68WbvLMe+q80wKje+fjM3OxBd6lA3kStU/07G4+SSTaegxC1jlabJ4U37AaAXbse8M6a9VL6zT8tzh6SqV/weeTU7rSpdrR5URFm15H9VAgAcWVE0YyYWxOf/wSxLOt2PPOz/GZw0jV16X51hwBgxoy97urlJuempVtXDxl18zzlzQYAnD28AQ1HNyKQ2R9enxcGXiBz5Ov79761vOzxD5orKyMKqEJG89DrlRJD25Piq4Blb2PidRND5U9xZUSJaBVM9fZFtzqOfx0IDf2zzfMpxymaHN5U29ycz6VVpWbjfSZvyi0r/7tw7O3zoLK11sbtulBvPFkjeOCYMlbZo0xHZ8rtuNCirxg+bu7MWx6s3Pqvhf1LS6O6uTmfx4c31aYcp6h/tnkehAbH8a6r3r74VlTBqFgsZmZVLAh7RPrxtCtWyTQGpfKv/A9mUDwOUCzG1W8sLx89bflYwLKFhKer5QtoN4n8wqkQdCMYoNazNcK1u+Av+IU9rABFZGVtJ6JfMFeAOU5VVVc+k2qra9EuNXhU+i0Gf0ax2H9S9a4H+lDqgkWuPpLhtzo7k3rrhNCIpw8eHCRLSpY5h6teCI2ZvKTiXN0hx021WunuNmQPvA59h0yA1m5P8hASIIGO5v9BRm4hGNKxFFsfVa25a+yM+zfzgTUWiht0bfzUP2b61YKupJ3JSo7lhHEUOs/fLySNSrrqYbI5z3Xk+0Qxw8wCWIYBQyffz4b5bO1LAmBA+pCZWwhmA4AhpAKzAcEAzGCjAWIBeE1Gn+z7AGxB8VJDRGZf+eLXEtI0p1zV6hfmBfbgE2HIfh7GjM3NpOeMdpcqvzGRSEQQCfePDxb292cNLm46XUlsHGH5s0EmjfbGIyASkNICUU8qIRIAGIm2M7AsrwAg2O4au/YBFBAJzZGIUH5jWLtLczPoOWK+ziX7eSXgLdNGPMgQ45llizY6/U1ixtUz/naw358ZrP/6GJOQBGYwa6Q66tHR8hksbwa8/lwI5UVHy0l8UfN7OOl2DBlXRtmDxhmP1/KOGD3jCqDyqyiAXxkrLQkvM4m+rpZ/FcJbJojNKKn0Dtt2ZgoyK1n5zkd7CwUFVFfrp+gz4DqQsGB3tyIj/1qMnPYYfBn5cJ0kOs6fxtcn38HJyifhJFtAbFB/rALtTSdRUBRC5sCpFgBEowArnBfsrrRtZ6aUegeRGaWM9LwArT/2B1RxV7fe6HXSxQD2AMDXJ3e3XDV+kTv4mjnK8mXx+bMf0FVTH4FSXgCAx5cFAOhoPAI33Q4rkAvWDgBGZt8RIplKmvOtx8/1pmuvky7WbK0KeOTMRLf7qJHyL0IYZ5WleHki6TYJcl+0mQSiMWZm8eLOg3VaO6eMMZw39EYeNHoehPRCaw1mhjEaACN74DgI5QPYwGgbyvIbXyCPu9vr6/Y/+8bpnn4gxpokCXJf7Ey6TUryCmGcVaIb9hLD/Be/T/yaWZQr0G8A4ODBtfL99+G2NR7bKoQgZmO0nYBrJ0CEnmhnBkDw9SmAsPzQbgrMGtlDphohBLV/fXx77ATsgwfXKgAgw3M1i/KgT/yawe91w16igvAUCCE+6kq6LYowDzCnqqoisl/ze8TMYuszY17KG1j0276Dxw20gvk6nWiWntxh31ZBo10k2uowYsojkNILA6ktCdXy1dGW6j2rX2BmOh4PU1VnRAbxWYEkGtGVdLf6LFFvGU+BEjLYYUz3nLxMq6i9y2lhyJpg06mVo++IP3emMupb+NjHbftGvrpIWf537fbP5FcndjjZg29QOYOKyfLnIpVohT8zH/6sAjYGWgmoM9XP86ljlXfe9ej+phtLor7R4Xiq9tVFjzDJGoLpl5dp3dWRsE/4JL1LAPDe1rL+Q3MwrbndLpZClxHETtfIP06et3Ffb1Wr2nbvzVk+e0PAsvM7OhMwImC8fYbxyBv/Af5gDvU2NxfOnWg9Wvly2fT5q9/qlf1w++IpSuh7GWa2NnJdvyzPwabu9PtT5m5pokgkImaNOjPV6+W1ACvbNm0McZBgrkwZuWLa/M0ne929a+3Cwf1yxe+koLlK8ACvPxMDRy+EL3sEuhPtTR1NJ9+offvpZ25/dH9dr8yebXeO9Am9miE+JzLFHkvkCJDb7cp73z42dB8xg4jAFX8IZQwvCM5x0+5Qy8JTruatBB5mjPcBR/vO3rjwlbZepW/+aXH2QF/qWn/2lYPhCSLR+knDkUObj654Bt/u2Vu+PMeSqSuESL/EoC+UoAWOwRPKorrT9akd4fvjXcwg6ql6IXFFekBQ+s6v9lg0RWuqtV1qEeTczKDNAEocrR7c/WnhmWjRCaJw/JJ2rBfMLKPRKP/y6jOFlnR/D4gDBH2nIfm2R1BfJXlC2uF9Opi74mxXYyIUjpvvtOUHXl9yvZI6bDQv0MZ4HS3WW8LMZdBpJhyacOzKfzpedEIVAbqq3zUEAKXNRfx2xnp1c81Ep3b05//CjOsFeLhrxOuWNPcIErYUVO4qWVEyZ8Ohi/m+NaB39CrQ3omZQfGYnTaNKZfeC3jxnOtqYZj2CJg5E+7YFrxcJnyRR2pfnZ8wEDsE8TSlpOlO4xGf4r/xeMWAzoRZVS/TNRfL/OBgsj9eNiY74O5I27ol5ciI38tPEfPVthHPKInaButc5axZ76SBnv5vkNMxw9WY4BHmd0z0aTJNT/gsHfN6ZN8L3WrOpNC6o9/H8x0DKipCsl+/JvJ9PTCvcEhO8OPTXe25GRzPDKhrL3TpZcLieh/JXzmar3MNrwcAJegey6KPUin9rgEVZGfINZ3d7sfnuyh07fCMrDNf2onUwM9bm5vzOXxZ/PzkBPthRcifE8i65sTZ1JdzV2xp6l3f99riqy12DwGAQ+r6Kbdv/LT33a51oX6F/bOuaOtuPzE5HE/+mH71I+8oEonQ5HAsCeAgAHAkIgBAPvmk8UEmGe4SIaTxC0r0FBwA0ShRWawZQDMARCIREYvFGPjhCfknwZGIiHxDXry02Prl348JXrKhuNiavni6b/ri6b5e0l5jfwrfGwOhUNzE4yFx/Pg13HMoIBqtEkVF+bzu43OTSeMql02dYpRAo9MArit0pkfI3e+s+uAoMxOiUaJYzEQiEREFgGiMEQ+Jy3PIz7rFuBglK0uGdxg5aICUVpNrmxyPJdNaO1k+lXm0KXmkdf3hBjAIP3IpcTEuHc8rQrLGeB5I2FSpyJ0hhDhmDHlBeoggOmYpMS3Do3alXHdacTD33452XZjrl9493To9rDi8ZdferQtvmrz+cAMIvG/rwtlTFpTv3Ldt0WQ2Otvjk2fdtJlrurv+ferf7ejExcNpLw62Jb3G4PqAX7AgXEXgMVJyEZhH+j0+x7FNoj3l5qUcM+/PX9YXnk+lww2pxJgLtp64a9PCoK31lG8Pw+YGAHBcZ7yruRQOCg14TpfwZwNAJBIh4LL7gc4cvzDgTqlEGzO8REzMLAhkCYEUAQkBaAG0ZQU8IwRRtmQq9Ej2BpWbJQT81ZsX9gEAIvLu27QoXwgaLAgFtuEsAF0ZlgoAQPQbzksjNRFwXU3bJ9y24UvDOKqNqDaaawnycKvu+sKF+IglfQUh3mRjndYuPesQqqWUDURqmGXJY44QYwBASnWYLZrkaPWmC16vLKtOgl53vHY9AKDn1/xB/J+D8/+L/wUgHs7F2yq0FAAAAABJRU5ErkJggg==" alt="Classic Football Lab" class="nav-logo-img"><span class="nav-logo-text">Classic Football Lab</span></div>
+  <div class="nav-toggle" onclick="toggleNav()">
+    <span></span><span></span><span></span>
   </div>
+  <div class="nav-links" id="navLinks">
+    <a class="nav-link active" onclick="showPage('home')">Home</a>
+    <a class="nav-link" onclick="showPage('howitworks')">How It Works</a>
+    <a class="nav-link" onclick="showPage('method')">The Method</a>
+    <a class="nav-cta" onclick="showPage('home');document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</a>
+  </div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- HOME PAGE -->
+<!-- ============================================================ -->
+<div class="page active" id="page-home">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="field-lines"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Santa Clarita, California</div>
+    <h1><span class="accent">Classic</span>Football Lab</h1>
+    <p class="hero-tagline">Not a team. Not a league. A Brazilian-method training lab that develops the skills your kid isn't getting at team practice.</p>
+    <a href="#contact" class="hero-cta" onclick="event.preventDefault();document.getElementById('contact').scrollIntoView({behavior:'smooth'})"><span>Start Training</span></a>
+    <p class="hero-quote">"We don't shoot with our feet. We shoot with our entire body."</p>
+  </div>
+  <div class="scroll-indicator"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- What If -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="sec reveal">
+  <p class="sec-label">What's Possible</p>
+  <h2 class="sec-title">Imagine What Your Kid Could Do</h2>
+  <div class="body-text">
+    <p>Imagine your kid bending a shot around a wall like <span class="highlight">Beckham</span>. Powering one into the top corner like <span class="highlight">Roberto Carlos</span>. Dropping a 40-yard lob pass right onto a teammate's foot like <span class="highlight">Pirlo</span>, the Italian maestro famous for making impossible passes look effortless.</p>
+    <p>A few rare players are born with a natural feel for these skills. Most aren't. But it doesn't matter where your kid falls on that spectrum. Natural talent without the right feedback develops bad habits. Raw potential without the right guidance stays locked. In both cases, what makes the difference is the same: someone who understands the mechanics well enough to break them into pieces your kid can actually develop. The way you position your hips. The angle of your standing leg. How your upper body moves during the strike. Every detail matters, and every detail can be trained.</p>
+    <p>That's what we do here. We break down exactly how elite players execute these skills, and we teach your kid to do the same. One mechanic at a time, with real-time feedback, until it clicks.</p>
+  </div>
+</section>
+
+<!-- The Gap -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="sec reveal">
+  <p class="sec-label">The Gap</p>
+  <h2 class="sec-title">What Team Practice Doesn't Cover</h2>
+  <div class="body-text">
+    <p>Your kid goes to practice two or three times a week. They run drills, they scrimmage, they play games on weekends. But you've noticed something: <span class="highlight">their shot hasn't gotten stronger. Their first touch is still heavy. They seem stuck.</span></p>
+    <p>That's not your kid's fault. Team practice is built around preparing the team for the next game: formations, set pieces, conditioning. Individual skill development requires a different kind of attention, a different methodology, and a level of biomechanical knowledge that most coaching certifications simply don't cover.</p>
+    <p>And here's the thing most parents don't realize: practicing the wrong technique over and over doesn't make you better. It makes you perfect at doing it wrong. Without someone who knows what correct mechanics look like, who can observe, correct, and show the right form, bad habits get locked in.</p>
+    <p><span class="highlight">That's the gap we fill.</span> We're not replacing your kid's team. We're giving them the individual development that team practice was never designed to provide.</p>
+  </div>
+</section>
+
+<!-- What Makes Us Different -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="sec approach reveal">
+  <p class="sec-label">What Makes Us Different</p>
+  <h2 class="sec-title">Something New in Santa Clarita</h2>
+  <div class="approach-grid">
+    <div class="card"><h3>The Whole Body, Not Just the Feet</h3><p>A powerful shot doesn't come from kicking harder. It comes from synchronizing your entire body: approach angle, hip rotation, standing leg position, strike angle, contact point. We teach the complete mechanics behind every skill, the way Brazilian academies do.</p></div>
+    <div class="card"><h3>Real Feedback, Every Rep</h3><p>I don't ask players to repeat a technique and say nothing. That's how you get perfect at doing something wrong. I watch every rep, give instant feedback, show the correct form, and we keep at it until the mechanic is right.</p></div>
+    <div class="card"><h3>Game Intelligence</h3><p>Skills without understanding are incomplete. We develop players who read the game: when to accelerate, when to hold the ball, when to pass, when to improvise. The kind of football IQ that makes your kid stand out on the field.</p></div>
+    <div class="card"><h3>Development, Not Just Games</h3><p>Team coaches focus on winning Saturday's game. I focus on building your kid into a better player, week after week, skill by skill. We track progress together so you can see the improvement, not just hope for it.</p></div>
+  </div>
+</section>
+
+<!-- Credentials -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="sec reveal">
+  <p class="sec-label">Background</p>
+  <h2 class="sec-title">Forged in Brazilian Football</h2>
+  <div class="body-text">
+    <p>Soccer has been part of my life since before I was even born. My mom almost had me at the sideline of a game my dad was playing in. I started playing competitive futsal at age 7 and never stopped. By 14, I was competing against adults, not because of my size, but because of my skill. I played through Brazil's top youth systems, including <span class="highlight">Clube Athletico Paranaense</span>, one of Brazil's premier professional clubs.</p>
+    <p>Along the way, I played with and against players who went on to compete for <span class="highlight">Barcelona</span>, <span class="highlight">Chelsea</span>, and top Brazilian clubs like Palmeiras, Corinthians, Santos, Flamengo, and Botafogo, as well as the national teams of Brazil, Italy, and Paraguay. Several of them mentored me personally. That's how I learned what separates good players from truly elite ones.</p>
+    <p>When I moved to the U.S. in 2022 and started watching youth soccer across Southern California, I saw talented kids who weren't getting the development they deserved. I knew I could help. <span class="highlight">That's exactly what I want to teach your kids.</span></p>
+  </div>
+</section>
+
+<!-- Process -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="sec reveal">
+  <p class="sec-label">The Process</p>
+  <h2 class="sec-title">How We Develop Players</h2>
+  <div class="method-steps">
+    <div class="method-step"><div class="step-num">01</div><h4>Conversation</h4><p>I talk with the player and parents to understand goals, challenges, and ambitions before we ever touch a ball.</p></div>
+    <div class="method-step"><div class="step-num">02</div><h4>Evaluate</h4><p>The first session is an assessment. I observe mechanics, technique, and game understanding to find exactly where to start.</p></div>
+    <div class="method-step"><div class="step-num">03</div><h4>Build</h4><p>A customized training plan focused on the specific skills your kid needs, aligned with their goals and your expectations.</p></div>
+    <div class="method-step"><div class="step-num">04</div><h4>Develop</h4><p>Consistent sessions with real-time feedback. We correct, refine, and repeat until each technique is mastered. You'll see the progress.</p></div>
+  </div>
+</section>
+
+<!-- Personal -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="sec reveal">
+  <p class="sec-label">A Note From Eduardo</p>
+  <h2 class="sec-title">A Few Things To Know</h2>
+  <div class="personal-content">
+    <div class="personal-story">
+      <p>As a good South American, I like to have fun, to laugh, and tell jokes. I don't take myself seriously. I am, though, serious about the methodical work needed to develop each skill with the specialization it requires, and tracking progress with both the kids and the parents.</p>
+      <p>The saddest thing in life is wasted talent. And although some kids have more potential than others, <span class="highlight">all of them need the right guidance to unlock it.</span></p>
+      <p>My goal is to help your kid develop their potential, especially when it comes to body mechanics, technique, and comprehension of the game. We start with the basics and take it from there. I'll be there to guide them on doing the right things and doing things right.</p>
+    </div>
+    <div class="personal-aside">
+      <h3>Quick Facts</h3>
+      <div class="aside-item"><div class="label">Age Group</div><div class="value">11–16 (Middle School & High School)</div></div>
+      <div class="aside-item"><div class="label">Location</div><div class="value">Santa Clarita, California</div></div>
+      <div class="aside-item"><div class="label">Session Types</div><div class="value">Individual & Group Training</div></div>
+      <div class="aside-item"><div class="label">Background</div><div class="value">Brazilian Youth Systems (Age 7–18)</div></div>
+      <div class="aside-item"><div class="label">Focus</div><div class="value">Body Mechanics, Technique, Game IQ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="cta-section" id="contact">
+  <h2 class="cta-title reveal">Ready To<br>Get Started?</h2>
+  <p class="cta-sub reveal">My door is always open. If you want to learn more or have any questions, reach out.</p>
+  <a href="mailto:eduardo@lab.football" class="cta-button reveal"><span>Get In Touch</span></a>
+  <p class="cta-note reveal">Individual and group sessions available</p>
+</section>
+
+</div><!-- end page-home -->
+
+
+<!-- ============================================================ -->
+<!-- HOW IT WORKS PAGE -->
+<!-- ============================================================ -->
+<div class="page" id="page-howitworks">
+
+<div class="page-header">
+  <h1>How It Works</h1>
+  <p class="subtitle">Whether you come with a specific goal or want us to find where to improve, the process is built around you. Choose your path and we take it from there.</p>
+</div>
+
+<section class="sec">
+  <p class="sec-label">Step 1</p>
+  <h2 class="sec-title">Choose Your Format</h2>
+  <div class="path-selector">
+    <button class="path-btn active" onclick="setPath(this,'individual')">Individual Training</button>
+    <button class="path-btn" onclick="setPath(this,'group')">Group Training</button>
+  </div>
+
+  <div id="path-individual" style="max-width:700px;margin:0 auto">
+    <div class="body-text" style="margin-bottom:2rem;text-align:center">
+      <p>For individual training, there are two paths depending on where you're starting from:</p>
+    </div>
+    <div class="approach-grid" style="grid-template-columns:1fr 1fr;margin-bottom:3rem">
+      <div class="card"><h3>You Know What to Work On</h3><p>You come with one or more specific skills or areas you want to develop. We start there and build a plan around your goals.</p></div>
+      <div class="card"><h3>You Want Us to Assess</h3><p>Not sure where to start? We run a full evaluation, identify strengths and gaps, and propose a development plan tailored to you.</p></div>
+    </div>
+  </div>
+
+  <div id="path-group" style="max-width:700px;margin:0 auto;display:none">
+    <div class="body-text" style="margin-bottom:2rem;text-align:center">
+      <p>For group training, the core process is the same as individual, but with additional drills and dimensions that come from working together. Group dynamics add game-realistic pressure, communication, and competitive edge to every session.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<section class="sec">
+  <p class="sec-label">Step 2</p>
+  <h2 class="sec-title">The Development Process</h2>
+  <p class="body-text" style="margin-bottom:3rem">In both cases, whether individual or group, the process follows the same structure:</p>
+
+  <div class="process-timeline">
+    <div class="timeline-step active-step">
+      <div class="timeline-dot"></div>
+      <h3>01. Evaluation</h3>
+      <p>We run a full assessment of your current mechanics, technique, and game understanding. This is the foundation everything else is built on.</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot"></div>
+      <h3>02. Development Plan</h3>
+      <p>Based on the evaluation, we define a clear development plan with specific goals and milestones. We review this together so everyone is aligned: player, parents, and coach.</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot"></div>
+      <h3>03. Train & Iterate</h3>
+      <p>We conduct sessions, share progress, and continuously iterate on the plan. Development isn't linear. We adapt as you grow and as new areas emerge.</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot"></div>
+      <h3>04. Reach the Goal</h3>
+      <p>We work until we hit the targets defined in your plan. Real, measurable improvement, not just hours logged.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<section class="sec">
+  <p class="sec-label">What Happens Next</p>
+  <h2 class="sec-title">After We Reach Your Goal</h2>
+  <div class="approach-grid" style="grid-template-columns:1fr 1fr;max-width:700px;margin:2rem auto 0">
+    <div class="card"><h3>Continue: Maintenance Mode</h3><p>You've hit your goal and want to keep the skills sharp. We shift to maintenance sessions focused on consistency and refinement.</p></div>
+    <div class="card"><h3>Discharge: You're Ready</h3><p>You've reached where you wanted to be. We wrap up, and you take what you've learned forward. The door is always open to come back.</p></div>
+  </div>
+
+  <div class="endpoint-box" style="margin-top:3rem">
+    <h4>Flexibility Built In</h4>
+    <p>At any point in the process, we can change the plan based on new goals or discoveries. And you can always decide to pause or stop the development. No pressure, no contracts. This works because you want it to work.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="cta-section">
+  <h2 class="cta-title">Ready To Start?</h2>
+  <p class="cta-sub">Let's talk about your goals. The first conversation is free.</p>
+  <a href="mailto:eduardo@lab.football" class="cta-button"><span>Get In Touch</span></a>
+</section>
+
+</div><!-- end page-howitworks -->
+
+<!-- ============================================================ -->
+<!-- THE METHOD PAGE -->
+<!-- ============================================================ -->
+<div class="page" id="page-method">
+
+<div class="page-header">
+  <h1>The Method</h1>
+  <p class="subtitle">The principles, tactics, and training structure behind Classic Football Lab. This is how we think about football " and how we develop players.</p>
+</div>
+
+<!-- Core Philosophy -->
+<section class="sec">
+  <div class="philosophy-block">
+    <p class="quote">Don't be fast. Be <span class="gold">faster than the other team.</span></p>
+    <p class="mechanics-detail">Control the ball, raise your head, pass and move. When the space opens, then you accelerate to be faster than your opponent. Football isn't about raw speed. It's about timing, intelligence, and precision.</p>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- Core Principles -->
+<section class="sec">
+  <p class="sec-label">Core Principles</p>
+  <h2 class="sec-title">How We Think About Football</h2>
+  <div class="principles">
+    <div class="principle"><div class="num">01</div><h3>The Midfield Is Everything</h3><p>The midfield is where you win or lose the game. Every team needs at least one player controlling the entire game from the center of the field.</p></div>
+    <div class="principle"><div class="num">02</div><h3>Peripheral Vision</h3><p>You have to know what's happening on the entire field. On attack, it helps you find players in better positions. On defense, it tells you which spaces to fill.</p></div>
+    <div class="principle"><div class="num">03</div><h3>Protect the Ball</h3><p>The ball is the most important thing on the field. Protect it. And if you lose it, go get it back immediately.</p></div>
+    <div class="principle"><div class="num">04</div><h3>Learn Rotations</h3><p>Rotation of 3, rotation of 4. On offense to open space, on defense to fill gaps and close passing lanes. Movement is structure.</p></div>
+    <div class="principle"><div class="num">05</div><h3>Defense Is a Team Effort</h3><p>Think in terms of a defensive system where the entire team defends " not just the back line. Everyone has a role when possession is lost.</p></div>
+    <div class="principle"><div class="num">06</div><h3>Don't Miss Goals</h3><p>Learn to feel comfortable in front of the goal. Finishing is a skill that requires practice, calmness, and confidence under pressure.</p></div>
+    <div class="principle"><div class="num">07</div><h3>System + Improvisation</h3><p>Play according to the system. But learn how and when to get out of it and improvise. Formation is overrated. Learn to adapt, fill spaces.</p></div>
+    <div class="principle"><div class="num">08</div><h3>Effort Over Result</h3><p>In a game, we don't control the result. What we control is our effort. Play like you're starving for the ball. Give absolutely everything you've got.</p></div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- When Team Has the Ball -->
+<section class="sec">
+  <p class="sec-label">In Possession</p>
+  <h2 class="sec-title">When the Team Has the Ball</h2>
+  <div class="phase-section" style="margin-top:2rem">
+    <div class="phase-label">Ball Exit / Build-Up</div>
+    <div class="phase-grid" style="margin-top:1rem">
+      <div class="phase-item"><h4>Short Passes</h4><p>Build from the back with precision. Keep possession and draw the opposition out of shape.</p></div>
+      <div class="phase-item"><h4>Rotations</h4><p>Rotate in groups of 3 or 4 to create passing options and open space through movement.</p></div>
+      <div class="phase-item"><h4>Breaking Pressure</h4><p>Move and open space to get out of the opponent's press. Composure under pressure is trained, not inherited.</p></div>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-label">Attack Patterns</div>
+    <div class="phase-grid" style="margin-top:1rem">
+      <div class="phase-item"><h4>Attack in 4-3-3</h4><p>Width from wingers, midfield creativity, striker movement. The classic Brazilian attacking shape.</p></div>
+      <div class="phase-item"><h4>Attack in 4-4-2</h4><p>Compact midfield, partnership up top, overlapping fullbacks providing width.</p></div>
+      <div class="phase-item"><h4>Pass and Move</h4><p>The foundation: pass the ball and immediately move into space. Never stand still after releasing the ball.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- When Team Doesn't Have the Ball -->
+<section class="sec">
+  <p class="sec-label">Out of Possession</p>
+  <h2 class="sec-title">When the Team Doesn't Have the Ball</h2>
+  <div class="phase-section" style="margin-top:2rem">
+    <div class="phase-grid">
+      <div class="phase-item"><h4>Immediate Pressure</h4><p>Lose the ball, press immediately. Don't let the opponent settle. Win it back as high up the field as possible.</p></div>
+      <div class="phase-item"><h4>Pressure Lines</h4><p>High press, mid-block, or low block depending on the game situation. Knowing when to use each is key.</p></div>
+      <div class="phase-item"><h4>Compactness</h4><p>Stay compact as a unit. Reduce the space between lines. Leave no holes for the opponent to exploit.</p></div>
+      <div class="phase-item"><h4>Defensive Rotations</h4><p>Cover spaces, shift as a unit, close passing lanes. When the opportunity comes, steal the ball.</p></div>
+      <div class="phase-item"><h4>Defending in 4-4-2</h4><p>Two compact banks of four. Excellent for closing central spaces and forcing play wide.</p></div>
+      <div class="phase-item"><h4>Defending in 4-3-3</h4><p>Higher pressing shape with winger engagement. More aggressive but requires discipline and fitness.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- Positions -->
+<section class="sec" style="text-align:center">
+  <p class="sec-label">Positional Development</p>
+  <h2 class="sec-title">We Develop Every Position</h2>
+  <p class="mechanics-detail" style="margin-bottom:3rem">Each position has unique mechanics, responsibilities, and decision-making requirements. We train them all with the specificity they deserve.</p>
+
+  <div style="position:relative;max-width:750px;margin:0 auto;height:620px">
+    <!-- Field markings -->
+    <!-- Outer border -->
+    <div style="position:absolute;top:0;left:0;right:0;bottom:0;border:1px solid rgba(26,107,60,0.2);border-radius:4px"></div>
+    <!-- Halfway line -->
+    <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(26,107,60,0.15)"></div>
+    <!-- Center circle -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;border:1px solid rgba(26,107,60,0.12);border-radius:50%"></div>
+    <!-- Penalty box (bottom) -->
+    <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:18%;border:1px solid rgba(26,107,60,0.15);border-bottom:none;border-radius:0"></div>
+    <!-- Goal box (bottom) -->
+    <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:30%;height:8%;border:1px solid rgba(26,107,60,0.12);border-bottom:none;border-radius:0"></div>
+    <!-- Penalty box (top) -->
+    <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:18%;border:1px solid rgba(26,107,60,0.15);border-top:none;border-radius:0"></div>
+    <!-- Goal box (top) -->
+    <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:30%;height:8%;border:1px solid rgba(26,107,60,0.12);border-top:none;border-radius:0"></div>
+
+    <!-- Striker - top center -->
+    <div class="pos-card" style="position:absolute;top:6%;left:50%;transform:translateX(-50%)"><h4>Striker (The "9")</h4><p>Finishing, movement, hold-up play</p></div>
+
+    <!-- Wingers - wide, slightly below striker -->
+    <div class="pos-card" style="position:absolute;top:18%;left:3%"><h4>Winger</h4><p>1v1, crossing, cutting inside</p></div>
+    <div class="pos-card" style="position:absolute;top:18%;right:3%"><h4>Winger</h4><p>1v1, crossing, cutting inside</p></div>
+
+    <!-- Attacking Mid - between wingers and center mid -->
+    <div class="pos-card" style="position:absolute;top:33%;left:35%;transform:translateX(-50%)"><h4>Attacking Mid (The "10")</h4><p>Final pass, creativity, shooting</p></div>
+
+    <!-- Center Mid - right of center -->
+    <div class="pos-card" style="position:absolute;top:48%;right:12%"><h4>Center Mid (The "8")</h4><p>Box-to-box, rotations, transitions</p></div>
+
+    <!-- Defensive Mid - center, below center mid -->
+    <div class="pos-card" style="position:absolute;top:60%;left:50%;transform:translateX(-50%)"><h4>Defensive Mid (The "6")</h4><p>Shielding, distribution, game control</p></div>
+
+    <!-- Full Backs - wide at the back -->
+    <div class="pos-card" style="position:absolute;top:75%;left:3%"><h4>Full Back</h4><p>Overlapping, crossing, recovery</p></div>
+    <div class="pos-card" style="position:absolute;top:75%;right:3%"><h4>Full Back</h4><p>Overlapping, crossing, recovery</p></div>
+
+    <!-- Center Backs - paired in the middle -->
+    <div class="pos-card" style="position:absolute;top:86%;left:32%;transform:translateX(-50%)"><h4>Center Back</h4><p>Reading the game, build-up</p></div>
+    <div class="pos-card" style="position:absolute;top:86%;right:32%;transform:translateX(50%)"><h4>Center Back</h4><p>1v1 defending, aerial duels</p></div>
+  </div>
+  <p class="cred-note" style="max-width:700px;margin:2.5rem auto 0">What you see above is just the starting point. Each position involves layers of coordination with teammates, tactical awareness, and situational decision-making that we develop through training.</p>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<section class="sec">
+  <p class="sec-label">Training Structure</p>
+  <h2 class="sec-title">What Practice Looks Like</h2>
+  <div class="phase-grid" style="max-width:900px;margin:2rem auto 0">
+    <div class="phase-item"><h4>Technique & Mechanics</h4><p>Passing, ball control, shooting mechanics. The fundamentals done right with instant feedback and correction.</p></div>
+    <div class="phase-item"><h4>Game Situations</h4><p>Ball exit, midfield movement, final pass + finishing. Realistic scenarios that translate directly to match day.</p></div>
+    <div class="phase-item"><h4>Tactics</h4><p>Formations, rotations, pressing triggers, and defensive shape. Understanding the why behind the what.</p></div>
+    <div class="phase-item"><h4>Collective Play</h4><p>Full team exercises where everything comes together: technique, tactics, communication, and competitive intensity.</p></div>
+    <div class="phase-item"><h4>Two-Touch Training</h4><p>Developing quick thinking and precise first touches under constraint. Forces better decisions faster.</p></div>
+    <div class="phase-item"><h4>Free Training</h4><p>Unstructured time to experiment, play, and develop creativity. Sometimes the best learning happens without a drill.</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="cta-section">
+  <h2 class="cta-title">This Is How We Play</h2>
+  <p class="cta-sub">Want to see it in action? Let's get started.</p>
+  <a href="mailto:eduardo@lab.football" class="cta-button"><span>Get In Touch</span></a>
+</section>
+
+</div><!-- end page-method -->
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <img src="data:image/png;base64,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" alt="Classic Football Lab" style="height:60px;width:auto;margin-bottom:1rem">
+  <p class="footer-name">Classic Football Lab</p>
+  <p>Brazilian Lab of Football &mdash; Santa Clarita, CA</p>
+  <p style="margin-top:1rem"><a href="https://www.instagram.com/classicfootballlab" target="_blank" rel="noopener noreferrer" style="color:var(--gray);text-decoration:none;transition:color 0.3s ease" onmouseover="this.style.color='#d4a843'" onmouseout="this.style.color='#8a9ab5'"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;pointer-events:none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a></p>
+</footer>
+
+<script>
+// Page navigation
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const links = document.querySelectorAll('.nav-link');
+  if (page === 'home') links[0].classList.add('active');
+  if (page === 'howitworks') links[1].classList.add('active');
+  if (page === 'method') links[2].classList.add('active');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Close mobile nav
+  document.getElementById('navLinks').classList.remove('open');
+
+  // Re-observe reveals on new page
+  setTimeout(initReveals, 100);
+}
+
+// Mobile nav toggle
+function toggleNav() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+// Path selector on How It Works
+function setPath(btn, path) {
+  document.querySelectorAll('.path-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('path-individual').style.display = path === 'individual' ? 'block' : 'none';
+  document.getElementById('path-group').style.display = path === 'group' ? 'block' : 'none';
+}
+
+// Scroll reveal
+function initReveals() {
+  const reveals = document.querySelectorAll('.reveal:not(.visible)');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  reveals.forEach(el => obs.observe(el));
+}
+
+initReveals();
+</script>
 </body>
 </html>
