@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Classic Football Lab brand — see src/app/CLAUDE.md */
+:root {
+  --cfl-navy: #0a1128;
+  --cfl-navy-light: #101d3a;
+  --cfl-green: #1a6b3c;
+  --cfl-green-light: #228b22;
+  --cfl-gold: #d4a843;
+  --cfl-gold-bright: #f0c95a;
+  --cfl-white: #f5f2eb;
+  --cfl-white-pure: #ffffff;
+  --cfl-gray: #8a9ab5;
+  --cfl-text-body: #c5cdd9;
+}
+
+@theme inline {
+  --color-cfl-navy: var(--cfl-navy);
+  --color-cfl-navy-light: var(--cfl-navy-light);
+  --color-cfl-green: var(--cfl-green);
+  --color-cfl-green-light: var(--cfl-green-light);
+  --color-cfl-gold: var(--cfl-gold);
+  --color-cfl-gold-bright: var(--cfl-gold-bright);
+  --color-cfl-white: var(--cfl-white);
+  --color-cfl-white-pure: var(--cfl-white-pure);
+  --color-cfl-gray: var(--cfl-gray);
+  --color-cfl-text-body: var(--cfl-text-body);
+  --font-display: var(--font-bebas-neue), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes cfl-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cfl-hero-glow {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-2%, -1%) scale(1.05);
+  }
+}
+
+@keyframes cfl-scroll-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scaleY(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.animate-cfl-fade-up {
+  animation: cfl-fade-up 0.8s ease forwards;
+}
+
+.animate-cfl-hero-glow {
+  animation: cfl-hero-glow 12s ease-in-out infinite alternate;
+}
+
+.animate-cfl-scroll-pulse {
+  animation: cfl-scroll-pulse 2s ease-in-out infinite;
+}
