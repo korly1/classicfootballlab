@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { Users } from "lucide-react";
 
+import { DashboardQuickEval } from "@/features/evaluations/components/dashboard-quick-eval";
 import { ReactivatePlayerButton } from "@/features/players/components/reactivate-player-button";
 import { createClient } from "@/lib/supabase/server";
+
+const rowEvalLinkClass =
+  "inline-flex min-h-[2.25rem] flex-1 items-center justify-center rounded border border-cfl-gold/40 px-3 py-2 font-[family-name:var(--font-bebas-neue)] text-xs tracking-wider text-cfl-gold uppercase transition hover:border-cfl-gold hover:bg-cfl-gold/10 sm:flex-initial sm:text-sm";
 
 type SearchParams = { showInactive?: string };
 
@@ -71,27 +75,40 @@ export default async function AdminDashboardPage({
     );
   }
 
+  const quickEvalPlayers = players.map((p) => ({
+    id: p.id,
+    full_name: p.full_name,
+  }));
+
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <h1 className="font-[family-name:var(--font-bebas-neue)] text-3xl tracking-widest text-cfl-gold">
           Players
         </h1>
-        <Link
-          href="/admin/players/new"
-          className="rounded bg-cfl-gold px-5 py-2 font-[family-name:var(--font-bebas-neue)] text-lg tracking-wider text-cfl-navy transition hover:bg-cfl-gold/90"
-        >
-          New Player
-        </Link>
+        <div className="flex w-full max-w-full flex-col gap-4 sm:w-auto sm:max-w-none sm:items-end">
+          {players.length > 0 ? (
+            <DashboardQuickEval players={quickEvalPlayers} />
+          ) : null}
+          <Link
+            href="/admin/players/new"
+            className="inline-flex justify-center rounded bg-cfl-gold px-5 py-2 font-[family-name:var(--font-bebas-neue)] text-lg tracking-wider text-cfl-navy transition hover:bg-cfl-gold/90 sm:self-end"
+          >
+            New Player
+          </Link>
+        </div>
       </div>
 
       {players.length > 0 ? (
         <ul className="mt-6 flex flex-col gap-2">
           {players.map((p) => (
-            <li key={p.id}>
+            <li
+              key={p.id}
+              className="flex flex-col gap-3 rounded border border-cfl-gold/20 bg-cfl-navy-light/30 px-4 py-3 transition hover:border-cfl-gold/50 sm:flex-row sm:items-center sm:justify-between"
+            >
               <Link
                 href={`/admin/players/${p.id}`}
-                className="block rounded border border-cfl-gold/20 bg-cfl-navy-light/30 px-4 py-3 text-cfl-white transition hover:border-cfl-gold/50"
+                className="min-w-0 flex-1 text-cfl-white transition hover:text-cfl-gold"
               >
                 <span className="font-medium">{p.full_name}</span>
                 {(p.club || p.level) && (
@@ -100,6 +117,20 @@ export default async function AdminDashboardPage({
                   </span>
                 )}
               </Link>
+              <div className="flex w-full flex-shrink-0 flex-wrap gap-2 sm:w-auto sm:justify-end">
+                <Link
+                  href={`/admin/players/${p.id}/evaluations/new`}
+                  className={rowEvalLinkClass}
+                >
+                  New evaluation
+                </Link>
+                <Link
+                  href={`/admin/players/${p.id}/evaluations/import`}
+                  className={rowEvalLinkClass}
+                >
+                  Import
+                </Link>
+              </div>
             </li>
           ))}
         </ul>
@@ -135,7 +166,7 @@ export default async function AdminDashboardPage({
               {inactive.map((p) => (
                 <li
                   key={p.id}
-                  className="flex flex-wrap items-center justify-between gap-3 rounded border border-cfl-gold/15 bg-cfl-navy-light/20 px-4 py-3"
+                  className="flex flex-col gap-3 rounded border border-cfl-gold/15 bg-cfl-navy-light/20 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div>
                     <span className="font-medium text-cfl-white">{p.full_name}</span>
@@ -145,14 +176,28 @@ export default async function AdminDashboardPage({
                       </span>
                     )}
                   </div>
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
                     <Link
                       href={`/admin/players/${p.id}`}
-                      className="text-sm text-cfl-gold transition hover:underline"
+                      className="text-center text-sm text-cfl-gold transition hover:underline sm:px-2 sm:text-left"
                     >
                       Profile
                     </Link>
-                    <ReactivatePlayerButton playerId={p.id} />
+                    <Link
+                      href={`/admin/players/${p.id}/evaluations/new`}
+                      className={rowEvalLinkClass}
+                    >
+                      New evaluation
+                    </Link>
+                    <Link
+                      href={`/admin/players/${p.id}/evaluations/import`}
+                      className={rowEvalLinkClass}
+                    >
+                      Import
+                    </Link>
+                    <div className="flex justify-center sm:inline-flex sm:justify-start">
+                      <ReactivatePlayerButton playerId={p.id} />
+                    </div>
                   </div>
                 </li>
               ))}

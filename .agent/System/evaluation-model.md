@@ -33,6 +33,8 @@ The page at `/report/[token]` always shows:
 
 Coach opens a player, clicks "New Evaluation", fills in the form. All skill categories are shown. Coach enters scores and notes per skill. Scores are optional — unscored skills show as "not evaluated".
 
+**Implementation:** [`/admin/players/[id]/evaluations/new`](../../src/app/admin/players/[id]/evaluations/new/page.tsx) — Zod schema in [`src/features/evaluations/schemas/manual-evaluation-schema.ts`](../../src/features/evaluations/schemas/manual-evaluation-schema.ts), server action [`createManualEvaluation`](../../src/features/evaluations/actions.ts). Saving inserts a draft evaluation and sparse `evaluation_items`; redirect to the evaluation detail page opens the share prompt (full notification flow is Feature 7).
+
 ### Path B: Import from Claude-generated JSON file
 
 Coach generates an evaluation with Claude, saves it as a `.json` file, uploads it in the admin at `/admin/players/[id]/evaluations/import`. App parses and validates the JSON, shows a preview, coach confirms.

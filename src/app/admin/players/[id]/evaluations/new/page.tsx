@@ -1,15 +1,69 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+import { NewEvaluationForm } from "@/features/evaluations/components/new-evaluation-form";
+import { createClient } from "@/lib/supabase/server";
+
+function todayIsoDate(): string {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
 export default async function NewEvaluationPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    notFound();
+  }
+
+  const { data: player } = await supabase
+    .from("players")
+    .select("id, full_name, coach_id")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (!player || player.coach_id !== user.id) {
+    notFound();
+  }
+
+  const { data: lastEval } = await supabase
+    .from("evaluations")
+    .select("session_number")
+    .eq("player_id", id)
+    .order("session_number", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const defaultSessionNumber =
+    lastEval?.session_number != null ? lastEval.session_number + 1 : 1;
+
   return (
     <div>
-      <h1 className="font-[family-name:var(--font-bebas-neue)] text-3xl tracking-widest text-cfl-gold">
+      <Link
+        href={`/admin/players/${id}`}
+        className="text-sm text-cfl-gray transition hover:text-cfl-gold"
+      >
+        ← Back to player
+      </Link>
+      <h1 className="mt-4 font-[family-name:var(--font-bebas-neue)] text-3xl tracking-widest text-cfl-gold">
         New evaluation
       </h1>
-      <p className="mt-2 text-cfl-gray">Player ID: {id}</p>
+      <NewEvaluationForm
+        playerId={player.id}
+        playerName={player.full_name}
+        defaultSessionDate={todayIsoDate()}
+        defaultSessionNumber={defaultSessionNumber}
+      />
     </div>
   );
 }
