@@ -61,7 +61,39 @@ export function PlayerShareEnabledToggle({
 
   return (
     <div className="mt-4 rounded border border-cfl-gold/15 bg-cfl-navy-light/20 px-4 py-3">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
+        <div className="flex shrink-0 items-center gap-2.5 sm:pt-0.5">
+          <button
+            type="button"
+            role="switch"
+            aria-checked={enabled}
+            aria-label={enabled ? "Sharing on" : "Sharing off"}
+            aria-busy={pending}
+            disabled={pending}
+            onClick={() => onToggle(!enabled)}
+            className={`relative h-9 w-[3.25rem] shrink-0 rounded-full border-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-cfl-navy-light disabled:opacity-50 ${
+              enabled
+                ? "border-cfl-green/70 bg-cfl-green/25 focus-visible:ring-cfl-green"
+                : "border-zinc-500/60 bg-zinc-900/80 focus-visible:ring-zinc-400"
+            }`}
+          >
+            <span
+              className={`absolute top-1 left-1 size-7 rounded-full shadow-md transition-all duration-200 ease-out ${
+                enabled
+                  ? "translate-x-4 bg-cfl-gold ring-2 ring-cfl-green/40"
+                  : "translate-x-0 bg-zinc-500 ring-0"
+              }`}
+              aria-hidden
+            />
+          </button>
+          <span
+            className={`min-w-[2rem] text-xs font-bold uppercase tracking-wider ${
+              enabled ? "text-cfl-green" : "text-zinc-500"
+            }`}
+          >
+            {enabled ? "On" : "Off"}
+          </span>
+        </div>
         <div className="min-w-0 flex-1">
           <p className="text-sm font-medium text-cfl-white">
             Parent report link
@@ -72,22 +104,6 @@ export function PlayerShareEnabledToggle({
             enable) to open published evaluations.
           </p>
         </div>
-        <button
-          type="button"
-          role="switch"
-          aria-checked={enabled}
-          aria-busy={pending}
-          disabled={pending}
-          onClick={() => onToggle(!enabled)}
-          className="relative h-8 w-14 shrink-0 rounded-full border border-cfl-gold/30 bg-cfl-navy-light focus:outline-none focus-visible:ring-2 focus-visible:ring-cfl-gold disabled:opacity-50"
-        >
-          <span
-            className={`absolute top-1 left-1 size-6 rounded-full bg-cfl-gold shadow transition-transform duration-200 ease-out ${
-              enabled ? "translate-x-6" : "translate-x-0"
-            }`}
-            aria-hidden
-          />
-        </button>
       </div>
 
       {shownPin ? (
