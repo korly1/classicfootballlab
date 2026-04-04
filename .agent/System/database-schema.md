@@ -55,7 +55,7 @@ create table public.players (
   parent_email    text,
   is_active       boolean not null default true,
   share_token     text unique default gen_random_uuid()::text,
-  share_pin       text,         -- bcrypt hash of the 4-6 digit PIN
+  share_pin       text,         -- bcrypt hash of the app-generated 6-digit PIN (set when share_enabled turns on)
   share_enabled   boolean not null default false,
   notes           text,
   created_at      timestamptz default now(),

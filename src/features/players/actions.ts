@@ -1,5 +1,9 @@
 "use server";
 
+import { randomInt } from "node:crypto";
+
+import bcrypt from "bcryptjs";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
@@ -159,3 +163,69 @@ export async function reactivatePlayer(
 
   redirect("/admin?showInactive=1");
 }
+
+/** Cryptographically random 6-digit PIN for parent report access. */
+function generateParentPin(): string {
+  return String(randomInt(100_000, 1_000_000));
+}
+
+export type SetPlayerShareEnabledResult =
+  | { ok: true; shareEnabled: true; parentPin: string }
+  | { ok: true; shareEnabled: false }
+  | { ok: false; error: string };
+
+export async function setPlayerShareEnabled(
+  playerId: string,
+  shareEnabled: boolean,
+): Promise<SetPlayerShareEnabledResult> {
+  if (!UUID_RE.test(playerId)) {
+    return { ok: false, error: invalidId().error };
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { ok: false, error: "You must be signed in." };
+  }
+
+  if (shareEnabled) {
+    const plainPin = generateParentPin();
+    const share_pin = await bcrypt.hash(plainPin, 10);
+    const { error } = await supabase
+      .from("players")
+      .update({
+        share_enabled: true,
+        share_pin,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", playerId)
+      .eq("coach_id", user.id);
+
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    revalidatePath(`/admin/players/${playerId}`);
+    return { ok: true, shareEnabled: true, parentPin: plainPin };
+  }
+
+  const { error } = await supabase
+    .from("players")
+    .update({
+      share_enabled: false,
+      share_pin: null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", playerId)
+    .eq("coach_id", user.id);
+
+  if (error) {
+    return { ok: false, error: error.message };
+  }
+
+  revalidatePath(`/admin/players/${playerId}`);
+  return { ok: true, shareEnabled: false };
+}
+

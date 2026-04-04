@@ -72,6 +72,9 @@ export type RichEvaluationReportProps = {
   overallNotes: string | null | undefined;
   developmentPlan?: string | null | undefined;
   rich: RichReportV1;
+  /** Profile fields from DB (optional; shown when set). */
+  playerLevel?: string | null;
+  playerClub?: string | null;
 };
 
 export function RichEvaluationReport({
@@ -80,7 +83,12 @@ export function RichEvaluationReport({
   overallNotes,
   developmentPlan,
   rich,
+  playerLevel,
+  playerClub,
 }: RichEvaluationReportProps) {
+  const levelClubLine = [playerLevel?.trim(), playerClub?.trim()]
+    .filter(Boolean)
+    .join(" · ");
   const pendingText = Array.isArray(rich.pending_upcoming)
     ? rich.pending_upcoming.join(" · ")
     : (rich.pending_upcoming ?? "");
@@ -94,6 +102,9 @@ export function RichEvaluationReport({
         <p className="mt-2 text-sm text-cfl-gray">
           Session date: {sessionDateFormatted}
         </p>
+        {levelClubLine ? (
+          <p className="mt-1 text-sm text-cfl-gray">{levelClubLine}</p>
+        ) : null}
         {rich.player_tags.length > 0 ? (
           <div className="mt-4 flex flex-wrap gap-2">
             {rich.player_tags.map((tag) => (

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { DeactivatePlayerButton } from "@/features/players/components/deactivate-player-button";
 import { ReactivatePlayerButton } from "@/features/players/components/reactivate-player-button";
 import { ageFromBirthYear } from "@/features/players/lib/age-from-birth-year";
+import { PlayerShareEnabledToggle } from "@/features/players/components/player-share-enabled-toggle";
 import { playerReportShareUrl } from "@/features/players/lib/share-url";
 import { createClient } from "@/lib/supabase/server";
 
@@ -137,6 +138,10 @@ export default async function PlayerProfilePage({
         <p className="mt-2 text-sm text-cfl-gray">
           Parents open this URL and enter their PIN to view reports.
         </p>
+        <PlayerShareEnabledToggle
+          playerId={id}
+          initialEnabled={player.share_enabled}
+        />
         {shareUrl ? (
           <p className="mt-3 break-all font-mono text-sm text-cfl-gold">{shareUrl}</p>
         ) : (

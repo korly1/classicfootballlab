@@ -22,11 +22,13 @@ Player
 
 ## Parent Report Page
 
-- `/report/[token]` — PIN entry; on success sets an httpOnly cookie and redirects to `/report/[token]/view`.
+- Coaches use a **toggle** on the admin player profile (**Parent report link** under Share link) to set **`players.share_enabled`**. Default is `false`. Turning sharing **on** generates a random **6-digit** PIN, shows it once in the UI (copy button), bcrypt-hashes it into **`players.share_pin`**, and clears the hash when sharing is turned **off**. Turning off then on again issues a new PIN and invalidates the old one.
+- `/report/[token]` — If `share_enabled` is true for the token, shows PIN entry; if the token is invalid or sharing is off, shows “This report is not currently available.” with **no** PIN form (no player name before PIN). On success, `verifyReportPin` sets an httpOnly cookie (**30-day** `maxAge`) and redirects to `/report/[token]/view`.
 - `/report/[token]/view` — Requires cookie matching the token. Loads the player by `share_token` (service role on server). Shows the latest evaluation where `is_published = true`.
 - If `rich_report` is set, the **rich report layout** is used (coach note, overview stats, snapshot, technique bars, technical tree, pending).
 - Otherwise the page shows **flat** session notes + `evaluation_items` (1–10 scores).
-- If no published evaluation exists yet: empty state with player name and “Your first evaluation is on its way.”
+- If no published evaluation exists yet: empty state with player name, optional `level` / `club` line, and “Your first evaluation is on its way.”
+- Flat parent layout: `level` / `club` under the header; skills with `focus_next` show a “Focus next session” badge; null scores show “Not evaluated this session.”
 
 ## Creating Evaluations — Two Paths
 

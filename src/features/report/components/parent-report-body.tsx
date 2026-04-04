@@ -27,11 +27,19 @@ function groupItemsByCategory(items: ItemRow[]): Map<string, ItemRow[]> {
 
 type Props = {
   playerName: string;
+  playerLevel?: string | null;
+  playerClub?: string | null;
   evaluation: EvalRow;
   items: ItemRow[];
 };
 
-export function ParentReportBody({ playerName, evaluation, items }: Props) {
+export function ParentReportBody({
+  playerName,
+  playerLevel,
+  playerClub,
+  evaluation,
+  items,
+}: Props) {
   const rich =
     evaluation.rich_report != null
       ? parseRichReportV1(evaluation.rich_report)
@@ -41,6 +49,8 @@ export function ParentReportBody({ playerName, evaluation, items }: Props) {
     return (
       <RichEvaluationReport
         playerName={playerName}
+        playerLevel={playerLevel}
+        playerClub={playerClub}
         sessionDateFormatted={formatSessionDate(evaluation.session_date)}
         overallNotes={evaluation.overall_notes}
         developmentPlan={evaluation.development_plan}
@@ -50,6 +60,9 @@ export function ParentReportBody({ playerName, evaluation, items }: Props) {
   }
 
   const byCategory = groupItemsByCategory(items);
+  const levelClubLine = [playerLevel?.trim(), playerClub?.trim()]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <div className="text-cfl-text-body">
@@ -60,6 +73,9 @@ export function ParentReportBody({ playerName, evaluation, items }: Props) {
         Session {evaluation.session_number} ·{" "}
         {formatSessionDate(evaluation.session_date)}
       </p>
+      {levelClubLine ? (
+        <p className="mt-1 text-sm text-cfl-gray">{levelClubLine}</p>
+      ) : null}
 
       <section className="mt-8 rounded border border-cfl-gold/20 bg-cfl-navy-light/30 p-6">
         <h3 className="font-[family-name:var(--font-bebas-neue)] text-lg tracking-wider text-cfl-white">
@@ -98,19 +114,32 @@ export function ParentReportBody({ playerName, evaluation, items }: Props) {
                   {rows.map((row) => (
                     <li
                       key={row.id}
-                      className="rounded border border-cfl-gold/15 bg-cfl-navy-light/20 px-4 py-3 text-sm"
+                      className={`rounded border bg-cfl-navy-light/20 px-4 py-3 text-sm ${
+                        row.focus_next
+                          ? "border-cfl-gold/50 ring-1 ring-cfl-gold/25"
+                          : "border-cfl-gold/15"
+                      }`}
                     >
                       <div className="flex flex-wrap items-baseline justify-between gap-2">
                         <span className="font-medium text-cfl-white">
                           {row.skill}
                         </span>
-                        {row.score != null ? (
-                          <span className="text-cfl-gold">
-                            Score: {row.score}/10
-                          </span>
-                        ) : (
-                          <span className="text-cfl-gray">Not evaluated</span>
-                        )}
+                        <div className="flex flex-wrap items-center gap-2">
+                          {row.focus_next ? (
+                            <span className="rounded border border-cfl-green/50 bg-cfl-green/15 px-2 py-0.5 font-[family-name:var(--font-bebas-neue)] text-[0.62rem] uppercase tracking-wide text-cfl-green">
+                              Focus next session
+                            </span>
+                          ) : null}
+                          {row.score != null ? (
+                            <span className="text-cfl-gold">
+                              Score: {row.score}/10
+                            </span>
+                          ) : (
+                            <span className="text-cfl-gray">
+                              Not evaluated this session
+                            </span>
+                          )}
+                        </div>
                       </div>
                       {row.mechanics_notes?.trim() ? (
                         <p className="mt-2 whitespace-pre-wrap text-cfl-gray">

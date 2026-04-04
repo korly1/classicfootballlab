@@ -19,7 +19,7 @@ export default async function ReportViewPage({
   const admin = createAdminClient();
   const { data: player } = await admin
     .from("players")
-    .select("id, full_name, share_enabled")
+    .select("id, full_name, share_enabled, level, club")
     .eq("share_token", token)
     .maybeSingle();
 
@@ -57,6 +57,14 @@ export default async function ReportViewPage({
             <p className="font-[family-name:var(--font-bebas-neue)] text-2xl tracking-wide text-cfl-white">
               {player.full_name}
             </p>
+            {[player.level?.trim(), player.club?.trim()].filter(Boolean)
+              .length > 0 ? (
+              <p className="mt-2 text-sm text-cfl-gray">
+                {[player.level?.trim(), player.club?.trim()]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </p>
+            ) : null}
             <p className="mt-4 text-cfl-gray">
               Your first evaluation is on its way.
             </p>
@@ -67,6 +75,8 @@ export default async function ReportViewPage({
         ) : (
           <ParentReportBody
             playerName={player.full_name}
+            playerLevel={player.level}
+            playerClub={player.club}
             evaluation={evaluation}
             items={itemRows}
           />

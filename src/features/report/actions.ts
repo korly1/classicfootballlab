@@ -32,7 +32,10 @@ export async function verifyReportPin(
 
   const match = await bcrypt.compare(trimmed, player.share_pin);
   if (!match) {
-    return { ok: false, error: "Incorrect PIN." };
+    return {
+      ok: false,
+      error: "Incorrect PIN. Please try again.",
+    };
   }
 
   const jar = await cookies();
@@ -40,7 +43,7 @@ export async function verifyReportPin(
     httpOnly: true,
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24 * 30,
     secure: process.env.NODE_ENV === "production",
   });
 
