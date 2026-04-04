@@ -2,6 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { EvaluationDetailShell } from "@/features/evaluations/components/evaluation-detail-shell";
+import {
+  PublishDraftButton,
+  PublishThenShareButton,
+} from "@/features/evaluations/components/evaluation-publish-actions";
 import { RichEvaluationReport } from "@/features/evaluations/components/rich-evaluation-report";
 import { parseRichReportV1 } from "@/features/evaluations/schemas/rich-report-schema";
 import { createClient } from "@/lib/supabase/server";
@@ -104,9 +108,18 @@ export default async function EvaluationDetailPage({
               Evaluation
             </h1>
             {!evaluation.is_published ? (
-              <span className="rounded border border-amber-400/50 px-3 py-1 text-xs font-medium uppercase tracking-wide text-amber-200">
-                Draft
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded border border-amber-400/50 px-3 py-1 text-xs font-medium uppercase tracking-wide text-amber-200">
+                  Draft
+                </span>
+                <PublishDraftButton
+                  playerId={id}
+                  evalId={evalId}
+                  className="rounded bg-cfl-green/90 px-3 py-1 text-xs font-medium uppercase tracking-wide text-cfl-navy transition hover:bg-cfl-green disabled:opacity-50"
+                >
+                  Publish
+                </PublishDraftButton>
+              </div>
             ) : (
               <span className="rounded border border-cfl-green/50 px-3 py-1 text-xs font-medium uppercase tracking-wide text-cfl-green">
                 Published
@@ -216,12 +229,14 @@ export default async function EvaluationDetailPage({
           )}
 
           <div className="mt-8">
-            <Link
-              href={shareHref}
-              className="inline-block rounded border border-cfl-gold/40 px-4 py-2 text-sm text-cfl-gold transition hover:border-cfl-gold"
+            <PublishThenShareButton
+              playerId={id}
+              evalId={evalId}
+              shareHref={shareHref}
+              className="inline-block rounded border border-cfl-gold/40 px-4 py-2 text-sm text-cfl-gold transition hover:border-cfl-gold disabled:opacity-50"
             >
               Share with parent
-            </Link>
+            </PublishThenShareButton>
           </div>
         </div>
       </EvaluationDetailShell>

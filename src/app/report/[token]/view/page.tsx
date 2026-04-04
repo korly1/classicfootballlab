@@ -1,15 +1,19 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { cookies } from "next/headers";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import { ParentReportBody } from "@/features/report/components/parent-report-body";
 import { REPORT_ACCESS_COOKIE } from "@/features/report/constants";
 import { createAdminClient } from "@/lib/supabase/admin";
+
+export const dynamic = "force-dynamic";
 
 export default async function ReportViewPage({
   params,
 }: {
   params: Promise<{ token: string }>;
 }) {
+  noStore();
   const { token } = await params;
   const jar = await cookies();
   if (jar.get(REPORT_ACCESS_COOKIE)?.value !== token) {
@@ -23,8 +27,8 @@ export default async function ReportViewPage({
     .eq("share_token", token)
     .maybeSingle();
 
-  if (!player?.share_enabled) {
-    notFound();
+  if (!player || player.share_enabled !== true) {
+    redirect(`/report/${token}`);
   }
 
   const { data: evaluation } = await admin
@@ -66,7 +70,8 @@ export default async function ReportViewPage({
               </p>
             ) : null}
             <p className="mt-4 text-cfl-gray">
-              Your first evaluation is on its way.
+              No published evaluation is available yet. Your coach will publish
+              it when it is ready — check back soon.
             </p>
             <p className="mt-8 font-[family-name:var(--font-bebas-neue)] text-sm tracking-[0.3em] text-cfl-gold">
               Classic Football Lab

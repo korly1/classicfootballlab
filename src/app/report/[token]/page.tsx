@@ -1,14 +1,19 @@
+import { unstable_noStore as noStore } from "next/cache";
+
 import { ReportPinForm } from "@/features/report/components/report-pin-form";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 const REPORT_UNAVAILABLE =
   "This report is not currently available." as const;
 
+export const dynamic = "force-dynamic";
+
 export default async function ReportPinPage({
   params,
 }: {
   params: Promise<{ token: string }>;
 }) {
+  noStore();
   const { token } = await params;
 
   const admin = createAdminClient();

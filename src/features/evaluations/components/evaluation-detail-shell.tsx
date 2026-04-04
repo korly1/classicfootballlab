@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
+
+import { PublishThenShareButton } from "./evaluation-publish-actions";
 
 type Props = {
   playerId: string;
@@ -19,7 +19,6 @@ export function EvaluationDetailShell({
   initialShareModal,
   children,
 }: Props) {
-  const router = useRouter();
   const [modalOpen, setModalOpen] = useState(initialShareModal);
   const [bannerVisible, setBannerVisible] = useState(false);
 
@@ -51,17 +50,16 @@ export function EvaluationDetailShell({
             <p className="mt-3 text-sm text-cfl-gray">
               This evaluation is ready. Share it with the parent?
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <button
-                type="button"
-                className="rounded bg-cfl-gold px-4 py-2 text-sm font-medium text-cfl-navy transition hover:bg-cfl-gold/90"
-                onClick={() => {
-                  setModalOpen(false);
-                  router.push(shareHref);
-                }}
+            <div className="mt-6 flex flex-wrap items-start gap-3">
+              <PublishThenShareButton
+                playerId={playerId}
+                evalId={evalId}
+                shareHref={shareHref}
+                onBeforeNavigate={() => setModalOpen(false)}
+                className="rounded bg-cfl-gold px-4 py-2 text-sm font-medium text-cfl-navy transition hover:bg-cfl-gold/90 disabled:opacity-50"
               >
                 Share
-              </button>
+              </PublishThenShareButton>
               <button
                 type="button"
                 className="rounded border border-cfl-gold/40 px-4 py-2 text-sm text-cfl-gold transition hover:border-cfl-gold"
@@ -78,16 +76,20 @@ export function EvaluationDetailShell({
       ) : null}
 
       {bannerVisible ? (
-        <div className="mb-6 flex flex-col gap-3 rounded border border-amber-400/40 bg-amber-500/10 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-3 rounded border border-amber-400/40 bg-amber-500/10 px-4 py-3 sm:flex-row sm:items-start sm:justify-between">
           <p className="text-sm text-amber-100">
             This evaluation has not been shared yet.
           </p>
-          <Link
-            href={shareHref}
-            className="inline-flex shrink-0 justify-center rounded border border-amber-400/60 px-4 py-2 text-sm font-medium text-amber-100 transition hover:bg-amber-500/20"
-          >
-            Share with parent
-          </Link>
+          <div className="flex shrink-0 flex-col items-stretch sm:items-end">
+            <PublishThenShareButton
+              playerId={playerId}
+              evalId={evalId}
+              shareHref={shareHref}
+              className="inline-flex justify-center rounded border border-amber-400/60 px-4 py-2 text-sm font-medium text-amber-100 transition hover:bg-amber-500/20 disabled:opacity-50"
+            >
+              Share with parent
+            </PublishThenShareButton>
+          </div>
         </div>
       ) : null}
 

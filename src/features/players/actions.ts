@@ -169,6 +169,11 @@ function generateParentPin(): string {
   return String(randomInt(100_000, 1_000_000));
 }
 
+function revalidateParentReportPaths(shareToken: string) {
+  revalidatePath(`/report/${shareToken}`);
+  revalidatePath(`/report/${shareToken}/view`);
+}
+
 export type SetPlayerShareEnabledResult =
   | { ok: true; shareEnabled: true; parentPin: string }
   | { ok: true; shareEnabled: false }
@@ -193,7 +198,7 @@ export async function setPlayerShareEnabled(
   if (shareEnabled) {
     const plainPin = generateParentPin();
     const share_pin = await bcrypt.hash(plainPin, 10);
-    const { error } = await supabase
+    const { data: row, error } = await supabase
       .from("players")
       .update({
         share_enabled: true,
@@ -201,17 +206,23 @@ export async function setPlayerShareEnabled(
         updated_at: new Date().toISOString(),
       })
       .eq("id", playerId)
-      .eq("coach_id", user.id);
+      .eq("coach_id", user.id)
+      .select("share_token")
+      .maybeSingle();
 
     if (error) {
       return { ok: false, error: error.message };
     }
+    if (!row?.share_token) {
+      return { ok: false, error: "Player not found." };
+    }
 
     revalidatePath(`/admin/players/${playerId}`);
+    revalidateParentReportPaths(row.share_token);
     return { ok: true, shareEnabled: true, parentPin: plainPin };
   }
 
-  const { error } = await supabase
+  const { data: row, error } = await supabase
     .from("players")
     .update({
       share_enabled: false,
@@ -219,13 +230,19 @@ export async function setPlayerShareEnabled(
       updated_at: new Date().toISOString(),
     })
     .eq("id", playerId)
-    .eq("coach_id", user.id);
+    .eq("coach_id", user.id)
+    .select("share_token")
+    .maybeSingle();
 
   if (error) {
     return { ok: false, error: error.message };
   }
+  if (!row?.share_token) {
+    return { ok: false, error: "Player not found." };
+  }
 
   revalidatePath(`/admin/players/${playerId}`);
+  revalidateParentReportPaths(row.share_token);
   return { ok: true, shareEnabled: false };
 }
 

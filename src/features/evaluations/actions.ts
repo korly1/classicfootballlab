@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
@@ -175,3 +176,58 @@ export async function createImportedEvaluation(
     `/admin/players/${playerId}/evaluations/${evaluation.id}?new=1`,
   );
 }
+
+/** Marks the evaluation as visible on the parent report (`/report/[token]/view`). */
+export async function publishEvaluation(
+  playerId: string,
+  evalId: string,
+): Promise<{ error: string } | undefined> {
+  if (!UUID_RE.test(playerId) || !UUID_RE.test(evalId)) {
+    return invalidId();
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: "You must be signed in." };
+  }
+
+  const { data: row, error: fetchError } = await supabase
+    .from("evaluations")
+    .select("id, coach_id, is_published")
+    .eq("id", evalId)
+    .eq("player_id", playerId)
+    .maybeSingle();
+
+  if (fetchError) {
+    return { error: fetchError.message };
+  }
+  if (!row || row.coach_id !== user.id) {
+    return { error: "Evaluation not found." };
+  }
+
+  if (row.is_published) {
+    revalidatePath(`/admin/players/${playerId}/evaluations/${evalId}`);
+    revalidatePath(`/admin/players/${playerId}`);
+    return undefined;
+  }
+
+  const now = new Date().toISOString();
+  const { error: updateError } = await supabase
+    .from("evaluations")
+    .update({ is_published: true, updated_at: now })
+    .eq("id", evalId)
+    .eq("player_id", playerId)
+    .eq("coach_id", user.id);
+
+  if (updateError) {
+    return { error: updateError.message };
+  }
+
+  revalidatePath(`/admin/players/${playerId}/evaluations/${evalId}`);
+  revalidatePath(`/admin/players/${playerId}`);
+  return undefined;
+}
+
