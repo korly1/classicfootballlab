@@ -1,5 +1,15 @@
 # Database Schema
 
+## Applying migrations (remote)
+
+With the Supabase project linked (`npx supabase link`), push pending SQL migrations to the hosted database:
+
+```bash
+npx supabase db push
+```
+
+If the app errors on a missing column (e.g. `rich_report` on `evaluations`), the remote DB is usually behind the repo; run the command above or execute the SQL in `supabase/migrations/` from the Dashboard SQL editor.
+
 ## Regenerating Types
 
 Run after any schema change:
