@@ -1,0 +1,407 @@
+{
+  "player": "Bianca",
+  "session_date": "2025-03-30",
+  "session_number": 1,
+  "overall_notes": "Great athleticism and a great growth mindset. Bianca is not just open to feedback — she's happy to hear it and applies corrections right away, with the attitude of someone who genuinely wants to be great at this. Positive energy throughout every drill. She learns fast and already made real progress in this first session. Translating mechanics from drills into other contexts takes time and consistency, and that's completely normal at this stage. I look forward to keeping working with her. She's the kind of player that makes you want to train non-stop.",
+  "development_plan": "Priority focus is the hip angle on approach — fixing this one root cause will carry over to passing, shooting, and finishing. Secondary focus: last step length before planting and balance loss transitioning from dribble to shot. Ball control and first touch to continue in parallel.",
+  "items": [
+    {
+      "category": "Passing",
+      "skill": "Short passes",
+      "score": 7,
+      "mechanics_notes": "Inside-of-foot pass (HTML parity): hip angle, foot placement, knee rotation — all showing improvement.",
+      "focus_next": true
+    },
+    {
+      "category": "Passing",
+      "skill": "Long ground passes",
+      "score": 4,
+      "mechanics_notes": "Long ground pass: hip angle, body balance, foot placement — identified stage.",
+      "focus_next": true
+    },
+    {
+      "category": "Shooting",
+      "skill": "Power shots",
+      "score": 6,
+      "mechanics_notes": "Power shot: mixed mechanics (hip showing improvement; last step, balance, foot at contact working on it).",
+      "focus_next": true
+    },
+    {
+      "category": "Finishing",
+      "skill": "Finishing from crosses",
+      "score": 6,
+      "mechanics_notes": "Balance, hip angle, last step — working on it.",
+      "focus_next": true
+    },
+    {
+      "category": "Finishing",
+      "skill": "Control and finish",
+      "score": 6,
+      "mechanics_notes": "Balance loss and chapa / hip angle — working on it.",
+      "focus_next": true
+    },
+    {
+      "category": "Ball Control",
+      "skill": "Soft touches",
+      "score": 7,
+      "mechanics_notes": "Dribbling: ball tightness and foot selection per direction — showing improvement.",
+      "focus_next": false
+    },
+    {
+      "category": "Ball Control",
+      "skill": "Controlling the ball",
+      "score": 6,
+      "mechanics_notes": "First touch weight and direction — working on it.",
+      "focus_next": true
+    }
+  ],
+  "rich_report": {
+    "version": 1,
+    "player_tags": [
+      "Striker (9)",
+      "Flight 1",
+      "Age 15",
+      "Individual training"
+    ],
+    "coach_attribution": "March 30, 2025 · Eduardo Mylonas da Silva",
+    "session_overview": {
+      "techniques_evaluated": 6,
+      "mechanics_tracked": 13,
+      "showing_or_above": 6
+    },
+    "snapshot_counts": {
+      "identified": 7,
+      "working": 4,
+      "showing": 5,
+      "consistent": 0,
+      "mastered": 0
+    },
+    "technique_summary": [
+      {
+        "name": "Inside-of-foot pass",
+        "category": "Passing",
+        "lowest_stage": "showing"
+      },
+      {
+        "name": "Long ground pass",
+        "category": "Passing",
+        "lowest_stage": "identified"
+      },
+      {
+        "name": "Power shot",
+        "category": "Shooting",
+        "lowest_stage": "working"
+      },
+      {
+        "name": "Finishing from crosses",
+        "category": "Finishing",
+        "lowest_stage": "working"
+      },
+      {
+        "name": "Control and finish",
+        "category": "Finishing",
+        "lowest_stage": "working"
+      },
+      {
+        "name": "Dribbling",
+        "category": "Ball Control & Dribbling",
+        "lowest_stage": "showing"
+      },
+      {
+        "name": "First touch / receiving",
+        "category": "Ball Control & Dribbling",
+        "lowest_stage": "working"
+      }
+    ],
+    "technical_evaluation": [
+      {
+        "category": "Passing",
+        "techniques": [
+          {
+            "name": "Inside-of-foot pass",
+            "header_stage": "showing",
+            "mechanics": [
+              {
+                "name": "Hip angle on approach",
+                "stage": "showing",
+                "description": "Approaches the ball with the hip already rotated and the knee bending early. Contact lands angled instead of flush, reducing accuracy.",
+                "also_affects": [
+                  "long ground pass",
+                  "power shot",
+                  "finishing from crosses",
+                  "control and finish"
+                ],
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Hip rotating early on approach. Contact angled, not flush. Affects accuracy.",
+                    "change": "not-evaluated → identified → showing improvement"
+                  }
+                ]
+              },
+              {
+                "name": "Foot placement at contact",
+                "stage": "showing",
+                "description": "Not twisting through the ball enough at contact. Reduces both accuracy and power on the pass.",
+                "also_affects": ["long ground pass", "power shot"],
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Not twisting through the foot enough at contact.",
+                    "change": "not-evaluated → identified → showing improvement"
+                  }
+                ]
+              },
+              {
+                "name": "Knee rotation",
+                "stage": "showing",
+                "description": "Not rotating the knee at the appropriate moment during contact. Affects the quality and direction of the pass.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Not twisting at the appropriate moment.",
+                    "change": "not-evaluated → showing improvement"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Long ground pass",
+            "header_stage": "identified",
+            "mechanics": [
+              {
+                "name": "Hip angle on approach",
+                "stage": "identified",
+                "description": "Same hip angle issue as the inside-of-foot pass, more pronounced at longer distances.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Same hip angle issue, more pronounced at longer distances.",
+                    "change": "not-evaluated → identified"
+                  }
+                ]
+              },
+              {
+                "name": "Body balance on approach",
+                "stage": "identified",
+                "description": "Upper body balance breaks down on approach. Affects contact quality and consistency on longer passes.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Balance off on approach, affects consistency of contact.",
+                    "change": "not-evaluated → identified"
+                  }
+                ]
+              },
+              {
+                "name": "Foot placement at contact",
+                "stage": "identified",
+                "description": "Not twisting through at contact — reduces power on longer passes.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Not twisting through at contact — reduces power on longer passes.",
+                    "change": "not-evaluated → identified"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "category": "Shooting",
+        "techniques": [
+          {
+            "name": "Power shot",
+            "header_stage": "working",
+            "mechanics": [
+              {
+                "name": "Hip angle on approach",
+                "stage": "showing",
+                "description": "Same muscle memory pattern as passing — hip rotates early and contact lands angled. Power and placement suffer.",
+                "also_affects": ["finishing from crosses", "control and finish"],
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Same muscle memory pattern as passing — hip rotates early, contact angled.",
+                    "change": "not-evaluated → identified → showing improvement"
+                  }
+                ]
+              },
+              {
+                "name": "Last step length before planting",
+                "stage": "working",
+                "description": "The last step before planting the support foot is too long. Throws off balance and reduces force transfer into the ball.",
+                "also_affects": ["finishing from crosses", "control and finish"],
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Last step too long — visible balance disruption before planting.",
+                    "change": "not-evaluated → identified → working on it"
+                  }
+                ]
+              },
+              {
+                "name": "Body balance on approach",
+                "stage": "working",
+                "description": "Balance breaks down on approach, especially at speed. Affects contact quality on every shot.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Balance breaks down on approach, especially at speed.",
+                    "change": "not-evaluated → identified → working on it"
+                  }
+                ]
+              },
+              {
+                "name": "Foot placement at contact",
+                "stage": "working",
+                "description": "Not twisting through the ball enough at contact. Reduces shot power.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Not twisting through ball enough. Reduces shot power.",
+                    "change": "not-evaluated → identified → working on it"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "category": "Finishing",
+        "techniques": [
+          {
+            "name": "Finishing from crosses",
+            "header_stage": "working",
+            "mechanics": [
+              {
+                "name": "Balance loss transitioning from dribble",
+                "stage": "working",
+                "description": "Loses balance just before contact when receiving and finishing. The technique applied correctly in isolated drills doesn't carry over at speed.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Loses balance before contact. Peito de pé doesn't transfer at speed.",
+                    "change": "not-evaluated → identified → working on it"
+                  }
+                ]
+              },
+              {
+                "name": "Hip angle on approach",
+                "stage": "working",
+                "description": "Chapa attempts breaking down — same hip angle root cause as passing and shooting.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Chapa attempts breaking down — same hip angle root cause.",
+                    "change": "not-evaluated → identified → working on it"
+                  }
+                ]
+              },
+              {
+                "name": "Last step length before planting",
+                "stage": "working",
+                "description": "Last step too long, disrupting balance before contact.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Last step too long disrupting balance before contact.",
+                    "change": "not-evaluated → identified → working on it"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Control and finish",
+            "header_stage": "working",
+            "mechanics": [
+              {
+                "name": "Balance loss transitioning from dribble",
+                "stage": "working",
+                "description": "Balance loss before contact in control-and-finish drill. Same pattern as dribble-to-shot.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Balance loss before contact in control-and-finish drill.",
+                    "change": "not-evaluated → identified → working on it"
+                  }
+                ]
+              },
+              {
+                "name": "Hip angle on approach",
+                "stage": "working",
+                "description": "Chapa finish breaking down — hip angle issue carries over from passing and shooting.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Chapa finish breaking down — hip angle issue carries over.",
+                    "change": "not-evaluated → identified → working on it"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "category": "Ball Control & Dribbling",
+        "techniques": [
+          {
+            "name": "Dribbling",
+            "header_stage": "showing",
+            "mechanics": [
+              {
+                "name": "Ball not tight to feet",
+                "stage": "showing",
+                "description": "Touches too heavy during dribbling — hitting the ball rather than guiding it. Ball gets away during close-control sequences.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Ball getting away during sequences — touches too heavy.",
+                    "change": "not-evaluated → identified → showing improvement"
+                  }
+                ]
+              },
+              {
+                "name": "Foot selection per dribbling direction",
+                "stage": "showing",
+                "description": "Not consistently using the correct foot per direction. Left foot going left, right foot going right. Direction changes must use the inside of the foot on the side being left.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Inconsistent foot selection per direction. Direction changes especially unclear.",
+                    "change": "not-evaluated → identified → showing improvement"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "First touch / receiving",
+            "header_stage": "working",
+            "mechanics": [
+              {
+                "name": "First touch weight and direction",
+                "stage": "working",
+                "description": "First touch too heavy and not directional enough. In the rope-bounded zone drill, she kept the ball inside less than half the time.",
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Less than 50% success in zone drill. Ball escaping on receive consistently.",
+                    "change": "not-evaluated → identified → working on it"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "pending_upcoming": "Lob pass · Crossing (stationary & running) · Finesse shot · One-touch finish · Juggling · Upper body balance & arm usage · Scanning · Protecting the ball · Stealing the ball"
+  }
+}

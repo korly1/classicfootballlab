@@ -19,7 +19,6 @@ const SKILL_INDEX = new Map(
 
 import { createManualEvaluation } from "../actions";
 import {
-  buildDefaultSkillRows,
   manualEvaluationFormSchema,
   type ManualEvaluationFormValues,
 } from "../schemas/manual-evaluation-schema";
@@ -32,26 +31,21 @@ const labelClass = "text-sm text-cfl-gray";
 type Props = {
   playerId: string;
   playerName: string;
-  defaultSessionDate: string;
-  defaultSessionNumber: number;
+  defaultValues: ManualEvaluationFormValues;
+  /** Shown under the player line (e.g. JSON import source name). */
+  previewHint?: string;
+  submitLabel?: string;
 };
 
 export function NewEvaluationForm({
   playerId,
   playerName,
-  defaultSessionDate,
-  defaultSessionNumber,
+  defaultValues,
+  previewHint,
+  submitLabel = "Save draft",
 }: Props) {
   const [serverError, setServerError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-
-  const defaultValues: ManualEvaluationFormValues = {
-    session_date: defaultSessionDate,
-    session_number: defaultSessionNumber,
-    overall_notes: "",
-    development_plan: "",
-    skillRows: buildDefaultSkillRows(),
-  };
 
   const methods = useForm<ManualEvaluationFormValues>({
     defaultValues,
@@ -100,6 +94,9 @@ export function NewEvaluationForm({
           Player:{" "}
           <span className="text-cfl-white">{playerName}</span>
         </p>
+        {previewHint ? (
+          <p className="text-sm text-cfl-gray">{previewHint}</p>
+        ) : null}
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="flex flex-col gap-1">
@@ -270,7 +267,7 @@ export function NewEvaluationForm({
             disabled={isPending}
             className="rounded bg-cfl-gold px-6 py-2 font-[family-name:var(--font-bebas-neue)] text-lg tracking-wider text-cfl-navy transition hover:bg-cfl-gold/90 disabled:opacity-50"
           >
-            {isPending ? "Saving…" : "Save draft"}
+            {isPending ? "Saving…" : submitLabel}
           </button>
           <Link
             href={`/admin/players/${playerId}`}

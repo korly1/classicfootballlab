@@ -10,6 +10,7 @@ An evaluation is a snapshot of a player's technical development at a point in ti
 Player
 └── Evaluations[] (one per session, ordered by session_number desc)
     ├── session_date, session_number, overall_notes, development_plan
+    ├── rich_report   (optional JSON v1 — HTML-style report: stages, mechanics, charts)
     ├── is_published  (false = draft, true = visible to parent)
     └── EvaluationItems[]
         ├── category        (e.g. 'Passing')
@@ -21,11 +22,11 @@ Player
 
 ## Parent Report Page
 
-The page at `/report/[token]` always shows:
-
-- The player's most recent evaluation where `is_published = true`
-- If no published evaluation exists yet, it shows an empty state: player name, date profile created, "Your first evaluation is coming soon."
-- CFL branding (dark navy, gold, green — matching the landing page)
+- `/report/[token]` — PIN entry; on success sets an httpOnly cookie and redirects to `/report/[token]/view`.
+- `/report/[token]/view` — Requires cookie matching the token. Loads the player by `share_token` (service role on server). Shows the latest evaluation where `is_published = true`.
+- If `rich_report` is set, the **rich report layout** is used (coach note, overview stats, snapshot, technique bars, technical tree, pending).
+- Otherwise the page shows **flat** session notes + `evaluation_items` (1–10 scores).
+- If no published evaluation exists yet: empty state with player name and “Your first evaluation is on its way.”
 
 ## Creating Evaluations — Two Paths
 
@@ -37,15 +38,26 @@ Coach opens a player, clicks "New Evaluation", fills in the form. All skill cate
 
 ### Path B: Import from Claude-generated JSON file
 
-Coach generates an evaluation with Claude, saves it as a `.json` file, uploads it in the admin at `/admin/players/[id]/evaluations/import`. App parses and validates the JSON, shows a preview, coach confirms.
+Coach uploads a `.json` file at [`/admin/players/[id]/evaluations/import`](../../src/app/admin/players/[id]/evaluations/import/page.tsx). Validation uses [`evaluation-import-schema.ts`](../../src/features/evaluations/schemas/evaluation-import-schema.ts).
+
+- **Rich import** (`rich_report` present): preview via [`RichEvaluationReport`](../../src/features/evaluations/components/rich-evaluation-report.tsx); save calls [`createImportedEvaluation`](../../src/features/evaluations/actions.ts), which persists `rich_report` and any optional flat `items` as `evaluation_items`.
+- **Grid-only import** (no `rich_report`): editable manual form + [`createManualEvaluation`](../../src/features/evaluations/actions.ts) as before.
+
+If the JSON `player` string does not match the profile’s `full_name`, the coach must acknowledge before preview/save.
+
+**Prompt + template:** [`SOP/claude-evaluation-export.md`](../SOP/claude-evaluation-export.md), [`public/evaluation-import-rich-v1.template.json`](../../public/evaluation-import-rich-v1.template.json) (see [`evaluation-import-rich-v1.template.README.txt`](../../public/evaluation-import-rich-v1.template.README.txt) for pointer to full example). Gold standard JSON: [`src/features/evaluations/__fixtures__/bianca_rich_v1.import.json`](../../src/features/evaluations/__fixtures__/bianca_rich_v1.import.json). Validate fixture: `npm run validate-fixture`.
+
+**Schema:** [`rich-report-schema.ts`](../../src/features/evaluations/schemas/rich-report-schema.ts) (`version: 1`).
 
 ## JSON Import Format
 
-This is the exact format Claude should produce for evaluation imports. The app validates against this schema using Zod before saving anything.
+Root object: see [`evaluation-import-schema.ts`](../../src/features/evaluations/schemas/evaluation-import-schema.ts). You must provide at least one of: **`rich_report`**, **non-empty `items`**, or **session text** (`overall_notes` / `development_plan`).
+
+**Flat `items` example** (canonical grid only):
 
 ```json
 {
-  "player_name": "Bianca",
+  "player": "Bianca",
   "session_date": "2026-03-30",
   "session_number": 3,
   "overall_notes": "Good energy today. Responded well to feedback on hip rotation.",
@@ -57,27 +69,23 @@ This is the exact format Claude should produce for evaluation imports. The app v
       "score": 7,
       "mechanics_notes": "Hip rotation cleaner. Still collapsing left shoulder on driven passes.",
       "focus_next": false
-    },
-    {
-      "category": "Shooting",
-      "skill": "Power shots",
-      "score": 6,
-      "mechanics_notes": "Standing leg planting too close to ball. Reducing hip extension.",
-      "focus_next": true
     }
   ]
 }
 ```
 
+**Rich report:** add optional `"rich_report": { "version": 1, ... }` per [`rich-report-schema.ts`](../../src/features/evaluations/schemas/rich-report-schema.ts). See template under `public/evaluation-import-rich-v1.template.json`.
+
 Rules:
 
-- `player_name` must match an existing player in the database (matched by `full_name`)
+- `player` should match the player profile you are importing for (matched to `full_name` on the import page; mismatch requires explicit acknowledgment)
 - `session_date` is ISO 8601 (YYYY-MM-DD)
 - `session_number` is a positive integer
-- `score` is 1-10 or null (omit the key if not evaluated this session)
+- `score` in `items` may be 1–10, `null`, or omitted
 - `focus_next` defaults to false if omitted
 - `items` may be a subset — not every skill needs to appear in every session
-- `category` and `skill` values must match `constants/evaluation-skills.ts` exactly
+- `category` and `skill` in `items` must match `constants/evaluation-skills.ts` exactly
+- Technique/mechanic names inside `rich_report` are free text
 
 ## Skill Categories (`constants/evaluation-skills.ts`)
 

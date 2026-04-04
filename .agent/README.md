@@ -12,6 +12,7 @@ Read these in order:
 4. Evaluation Model → `System/evaluation-model.md`
 5. Notification Model → `System/notification-model.md`
 6. Development Workflow → `SOP/development-workflow.md`
+7. Claude evaluation JSON export → `SOP/claude-evaluation-export.md`
 
 ## Three Areas of the App
 

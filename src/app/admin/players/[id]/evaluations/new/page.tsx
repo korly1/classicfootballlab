@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { NewEvaluationForm } from "@/features/evaluations/components/new-evaluation-form";
+import { buildDefaultSkillRows } from "@/features/evaluations/schemas/manual-evaluation-schema";
 import { createClient } from "@/lib/supabase/server";
 
 function todayIsoDate(): string {
@@ -61,8 +62,13 @@ export default async function NewEvaluationPage({
       <NewEvaluationForm
         playerId={player.id}
         playerName={player.full_name}
-        defaultSessionDate={todayIsoDate()}
-        defaultSessionNumber={defaultSessionNumber}
+        defaultValues={{
+          session_date: todayIsoDate(),
+          session_number: defaultSessionNumber,
+          overall_notes: "",
+          development_plan: "",
+          skillRows: buildDefaultSkillRows(),
+        }}
       />
     </div>
   );

@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate-fixture": "npx --yes tsx scripts/validate-evaluation-import-fixture.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.0",
@@ -37,6 +38,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
+    "supabase": "^2.84.10",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

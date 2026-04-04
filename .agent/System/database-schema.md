@@ -73,6 +73,7 @@ create table public.evaluations (
   session_number   integer not null default 1,
   overall_notes    text,
   development_plan text,
+  rich_report      jsonb,  -- optional v1 structured report (see rich-report-schema.ts)
   is_published     boolean not null default false,  -- true = parent can see it
   created_at       timestamptz default now(),
   updated_at       timestamptz default now()

@@ -151,12 +151,20 @@ export default async function PlayerProfilePage({
           <h2 className="font-[family-name:var(--font-bebas-neue)] text-xl tracking-wider text-cfl-gold">
             Evaluations
           </h2>
-          <Link
-            href={`/admin/players/${id}/evaluations/new`}
-            className="rounded bg-cfl-gold px-4 py-2 text-sm font-medium text-cfl-navy transition hover:bg-cfl-gold/90"
-          >
-            New Evaluation
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href={`/admin/players/${id}/evaluations/new`}
+              className="rounded bg-cfl-gold px-4 py-2 text-sm font-medium text-cfl-navy transition hover:bg-cfl-gold/90"
+            >
+              New Evaluation
+            </Link>
+            <Link
+              href={`/admin/players/${id}/evaluations/import`}
+              className="rounded border border-cfl-gold/40 px-4 py-2 text-sm text-cfl-gold transition hover:border-cfl-gold"
+            >
+              Import JSON
+            </Link>
+          </div>
         </div>
 
         {evals.length === 0 ? (

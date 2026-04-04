@@ -1,0 +1,1 @@
+Full worked example (Bianca, HTML parity): src/features/evaluations/__fixtures__/bianca_rich_v1.import.json — use that file as the gold standard when generating JSON for Claude. This template.json is intentionally minimal.

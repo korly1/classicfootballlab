@@ -1,0 +1,59 @@
+{
+  "player": "PLAYER_FULL_NAME_AS_IN_DATABASE",
+  "session_date": "YYYY-MM-DD",
+  "session_number": 1,
+  "overall_notes": "Coach narrative (also shown as Coach's note in the rich report).",
+  "development_plan": "Priorities for upcoming sessions.",
+  "items": [],
+  "rich_report": {
+    "version": 1,
+    "player_tags": ["Position", "Flight", "Age 15"],
+    "coach_attribution": "Session date · Coach name",
+    "session_overview": {
+      "techniques_evaluated": 0,
+      "mechanics_tracked": 0,
+      "showing_or_above": 0
+    },
+    "snapshot_counts": {
+      "identified": 0,
+      "working": 0,
+      "showing": 0,
+      "consistent": 0,
+      "mastered": 0
+    },
+    "technique_summary": [
+      {
+        "name": "Example technique",
+        "category": "Passing",
+        "lowest_stage": "working"
+      }
+    ],
+    "technical_evaluation": [
+      {
+        "category": "Passing",
+        "techniques": [
+          {
+            "name": "Example technique",
+            "header_stage": "showing",
+            "mechanics": [
+              {
+                "name": "Example mechanic",
+                "stage": "showing",
+                "description": "Observation text.",
+                "also_affects": ["Other technique"],
+                "history": [
+                  {
+                    "date": "Mar 30, 2025",
+                    "note": "Session log line.",
+                    "change": "not-evaluated → showing improvement"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "pending_upcoming": "Skills to cover in future sessions."
+  }
+}

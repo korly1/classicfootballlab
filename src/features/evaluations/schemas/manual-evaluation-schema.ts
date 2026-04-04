@@ -7,10 +7,13 @@ export const ALLOWED_CATEGORY_SKILL = SKILL_CATEGORIES.flatMap((c) =>
   c.skills.map((skill) => ({ category: c.category, skill })),
 );
 
-const PAIR_KEY = (category: string, skill: string) => `${category}\0${skill}`;
+/** Stable key for category+skill (import + manual validation). */
+export function skillPairKey(category: string, skill: string): string {
+  return `${category}\0${skill}`;
+}
 
-const ALLOWED_PAIR_KEYS = new Set(
-  ALLOWED_CATEGORY_SKILL.map((p) => PAIR_KEY(p.category, p.skill)),
+export const ALLOWED_SKILL_PAIR_KEYS = new Set(
+  ALLOWED_CATEGORY_SKILL.map((p) => skillPairKey(p.category, p.skill)),
 );
 
 export type SkillFormRow = {
@@ -40,7 +43,7 @@ const skillFormRowSchema = z
     focus_next: z.boolean().optional().default(false),
   })
   .superRefine((row, ctx) => {
-    if (!ALLOWED_PAIR_KEYS.has(PAIR_KEY(row.category, row.skill))) {
+    if (!ALLOWED_SKILL_PAIR_KEYS.has(skillPairKey(row.category, row.skill))) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Invalid category or skill",

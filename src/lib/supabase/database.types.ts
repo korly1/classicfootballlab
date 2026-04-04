@@ -85,6 +85,7 @@ export type Database = {
           is_published: boolean
           overall_notes: string | null
           player_id: string
+          rich_report: Json | null
           session_date: string
           session_number: number
           updated_at: string | null
@@ -97,6 +98,7 @@ export type Database = {
           is_published?: boolean
           overall_notes?: string | null
           player_id: string
+          rich_report?: Json | null
           session_date?: string
           session_number?: number
           updated_at?: string | null
@@ -109,6 +111,7 @@ export type Database = {
           is_published?: boolean
           overall_notes?: string | null
           player_id?: string
+          rich_report?: Json | null
           session_date?: string
           session_number?: number
           updated_at?: string | null

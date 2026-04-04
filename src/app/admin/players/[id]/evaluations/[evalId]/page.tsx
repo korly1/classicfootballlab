@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { EvaluationDetailShell } from "@/features/evaluations/components/evaluation-detail-shell";
+import { RichEvaluationReport } from "@/features/evaluations/components/rich-evaluation-report";
+import { parseRichReportV1 } from "@/features/evaluations/schemas/rich-report-schema";
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/lib/supabase/database.types";
 
@@ -56,6 +58,19 @@ export default async function EvaluationDetailPage({
   if (!evaluation || evaluation.coach_id !== user.id) {
     notFound();
   }
+
+  const { data: playerRow } = await supabase
+    .from("players")
+    .select("full_name")
+    .eq("id", id)
+    .maybeSingle();
+
+  const playerName = playerRow?.full_name ?? "Player";
+
+  const rich =
+    evaluation.rich_report != null
+      ? parseRichReportV1(evaluation.rich_report)
+      : null;
 
   const { data: itemRows } = await supabase
     .from("evaluation_items")
@@ -114,77 +129,91 @@ export default async function EvaluationDetailPage({
             </p>
           ) : null}
 
-          <section className="mt-8 rounded border border-cfl-gold/20 bg-cfl-navy-light/30 p-6">
-            <h2 className="font-[family-name:var(--font-bebas-neue)] text-lg tracking-wider text-cfl-white">
-              Session notes
-            </h2>
-            <dl className="mt-4 space-y-4 text-sm">
-              <div>
-                <dt className="text-cfl-gray">Overall notes</dt>
-                <dd className="mt-1 whitespace-pre-wrap text-cfl-white">
-                  {evaluation.overall_notes?.trim() || "—"}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-cfl-gray">Development plan</dt>
-                <dd className="mt-1 whitespace-pre-wrap text-cfl-white">
-                  {evaluation.development_plan?.trim() || "—"}
-                </dd>
-              </div>
-            </dl>
-          </section>
-
-          <section className="mt-8">
-            <h2 className="font-[family-name:var(--font-bebas-neue)] text-lg tracking-wider text-cfl-gold">
-              Skills
-            </h2>
-            {items.length === 0 ? (
-              <p className="mt-3 text-sm text-cfl-gray">
-                No skill rows recorded for this evaluation.
-              </p>
-            ) : (
-              <div className="mt-4 flex flex-col gap-6">
-                {Array.from(byCategory.entries()).map(([category, rows]) => (
-                  <div key={category}>
-                    <h3 className="text-sm font-medium uppercase tracking-wide text-cfl-gold">
-                      {category}
-                    </h3>
-                    <ul className="mt-2 flex flex-col gap-3">
-                      {rows.map((row) => (
-                        <li
-                          key={row.id}
-                          className="rounded border border-cfl-gold/15 bg-cfl-navy-light/20 px-4 py-3 text-sm"
-                        >
-                          <div className="flex flex-wrap items-baseline justify-between gap-2">
-                            <span className="font-medium text-cfl-white">
-                              {row.skill}
-                            </span>
-                            {row.score != null ? (
-                              <span className="text-cfl-gold">
-                                Score: {row.score}/10
-                              </span>
-                            ) : (
-                              <span className="text-cfl-gray">No score</span>
-                            )}
-                          </div>
-                          {row.mechanics_notes?.trim() ? (
-                            <p className="mt-2 whitespace-pre-wrap text-cfl-gray">
-                              {row.mechanics_notes}
-                            </p>
-                          ) : null}
-                          {row.focus_next ? (
-                            <p className="mt-2 text-xs font-medium uppercase tracking-wide text-amber-200">
-                              Focus next session
-                            </p>
-                          ) : null}
-                        </li>
-                      ))}
-                    </ul>
+          {rich ? (
+            <div className="mt-8">
+              <RichEvaluationReport
+                playerName={playerName}
+                sessionDateFormatted={formatDate(evaluation.session_date)}
+                overallNotes={evaluation.overall_notes}
+                developmentPlan={evaluation.development_plan}
+                rich={rich}
+              />
+            </div>
+          ) : (
+            <>
+              <section className="mt-8 rounded border border-cfl-gold/20 bg-cfl-navy-light/30 p-6">
+                <h2 className="font-[family-name:var(--font-bebas-neue)] text-lg tracking-wider text-cfl-white">
+                  Session notes
+                </h2>
+                <dl className="mt-4 space-y-4 text-sm">
+                  <div>
+                    <dt className="text-cfl-gray">Overall notes</dt>
+                    <dd className="mt-1 whitespace-pre-wrap text-cfl-white">
+                      {evaluation.overall_notes?.trim() || "—"}
+                    </dd>
                   </div>
-                ))}
-              </div>
-            )}
-          </section>
+                  <div>
+                    <dt className="text-cfl-gray">Development plan</dt>
+                    <dd className="mt-1 whitespace-pre-wrap text-cfl-white">
+                      {evaluation.development_plan?.trim() || "—"}
+                    </dd>
+                  </div>
+                </dl>
+              </section>
+
+              <section className="mt-8">
+                <h2 className="font-[family-name:var(--font-bebas-neue)] text-lg tracking-wider text-cfl-gold">
+                  Skills
+                </h2>
+                {items.length === 0 ? (
+                  <p className="mt-3 text-sm text-cfl-gray">
+                    No skill rows recorded for this evaluation.
+                  </p>
+                ) : (
+                  <div className="mt-4 flex flex-col gap-6">
+                    {Array.from(byCategory.entries()).map(([category, rows]) => (
+                      <div key={category}>
+                        <h3 className="text-sm font-medium uppercase tracking-wide text-cfl-gold">
+                          {category}
+                        </h3>
+                        <ul className="mt-2 flex flex-col gap-3">
+                          {rows.map((row) => (
+                            <li
+                              key={row.id}
+                              className="rounded border border-cfl-gold/15 bg-cfl-navy-light/20 px-4 py-3 text-sm"
+                            >
+                              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                                <span className="font-medium text-cfl-white">
+                                  {row.skill}
+                                </span>
+                                {row.score != null ? (
+                                  <span className="text-cfl-gold">
+                                    Score: {row.score}/10
+                                  </span>
+                                ) : (
+                                  <span className="text-cfl-gray">No score</span>
+                                )}
+                              </div>
+                              {row.mechanics_notes?.trim() ? (
+                                <p className="mt-2 whitespace-pre-wrap text-cfl-gray">
+                                  {row.mechanics_notes}
+                                </p>
+                              ) : null}
+                              {row.focus_next ? (
+                                <p className="mt-2 text-xs font-medium uppercase tracking-wide text-amber-200">
+                                  Focus next session
+                                </p>
+                              ) : null}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
+            </>
+          )}
 
           <div className="mt-8">
             <Link
