@@ -51,7 +51,7 @@ If the JSON `player` string does not match the profile’s `full_name`, the coac
 
 ## JSON Import Format
 
-Root object: see [`evaluation-import-schema.ts`](../../src/features/evaluations/schemas/evaluation-import-schema.ts). You must provide at least one of: **`rich_report`**, **non-empty `items`**, or **session text** (`overall_notes` / `development_plan`).
+Root object: see [`evaluation-import-schema.ts`](../../src/features/evaluations/schemas/evaluation-import-schema.ts). You must provide at least one of: **`rich_report`**, **at least one canonical `items[]` row** (non-matching rows are stripped on import), or **session text** (`overall_notes` / `development_plan`).
 
 **Flat `items` example** (canonical grid only):
 

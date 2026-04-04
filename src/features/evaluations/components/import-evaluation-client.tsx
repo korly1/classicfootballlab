@@ -36,6 +36,7 @@ export function ImportEvaluationClient({
     { path: string; message: string }[] | null
   >(null);
   const [imported, setImported] = useState<EvaluationImport | null>(null);
+  const [gridRowsStripped, setGridRowsStripped] = useState(0);
   const [formKey, setFormKey] = useState(0);
   const [nameAcknowledged, setNameAcknowledged] = useState(false);
 
@@ -54,6 +55,7 @@ export function ImportEvaluationClient({
     setParseError(null);
     setZodIssues(null);
     setImported(null);
+    setGridRowsStripped(0);
     setNameAcknowledged(false);
 
     const reader = new FileReader();
@@ -71,6 +73,16 @@ export function ImportEvaluationClient({
           );
           return;
         }
+        const rawItemsLen = Array.isArray(
+          (obj as { items?: unknown }).items,
+        )
+          ? (obj as { items: unknown[] }).items.length
+          : 0;
+        const stripped =
+          rawItemsLen > parsed.data.items.length
+            ? rawItemsLen - parsed.data.items.length
+            : 0;
+        setGridRowsStripped(stripped);
         setImported(parsed.data);
         setFormKey((k) => k + 1);
       } catch {
@@ -137,6 +149,20 @@ export function ImportEvaluationClient({
             ))}
           </ul>
         </div>
+      ) : null}
+
+      {gridRowsStripped > 0 ? (
+        <p
+          className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-100"
+          role="status"
+        >
+          {gridRowsStripped} grid row
+          {gridRowsStripped === 1 ? "" : "s"} ignored because category/skill did
+          not match the evaluation grid. Those scores are not applied to the
+          skill grid; use exact names from evaluation-skills or include{" "}
+          <code className="rounded bg-cfl-navy-light px-1">rich_report</code> for
+          full technique detail.
+        </p>
       ) : null}
 
       {imported != null && !nameMatches && !nameAcknowledged ? (

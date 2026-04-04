@@ -31,9 +31,10 @@ Use this when generating an import file for **Classic Football Lab** (admin → 
    - `session_number`: integer ≥ 1.
    - `overall_notes`, `development_plan`: optional strings (shown in app and in the rich report coach block).
    - **`rich_report`**: optional; if present must match [`richReportV1Schema`](../../src/features/evaluations/schemas/rich-report-schema.ts) with `"version": 1`.
-   - **`items`**: optional array of canonical grid rows (see `evaluation-skills.ts`). Use **exact** `category` / `skill` strings. `score` may be **omitted** or **`null`**. Omit rows for unevaluated skills.
+   - **`items`**: optional array of grid rows (see [`evaluation-skills.ts`](../../src/constants/evaluation-skills.ts)). Use **exact** `category` / `skill` strings for rows that should fill the 1–10 skill grid. `score` may be **omitted** or **`null`**. Omit rows for unevaluated skills.
+   - **Non-canonical `items` rows are dropped on import** (no per-row error): if `category` / `skill` do not match the evaluation grid, that row is ignored. Prefer **`"items": []`** when `rich_report` carries all detail, or use grid names only—not technique titles from `technical_evaluation` (e.g. not `"Inside-of-foot pass"`). Dropped scores do not appear on the manual grid; narrative detail belongs in **`rich_report`**.
 
-3. At least one of: **`rich_report`**, **non-empty `items`**, or **non-empty** `overall_notes` / `development_plan`.
+3. At least one of: **`rich_report`**, **at least one canonical `items[]` row** (after import filtering), or **non-empty** `overall_notes` / `development_plan`.
 
 ## Mapping transcript → `rich_report`
 

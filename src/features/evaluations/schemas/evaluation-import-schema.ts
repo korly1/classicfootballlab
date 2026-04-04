@@ -8,59 +8,65 @@ import {
 } from "./manual-evaluation-schema";
 import { richReportV1Schema } from "./rich-report-schema";
 
-const importItemSchema = z
-  .object({
-    category: z.string(),
-    skill: z.string(),
-    score: z
-      .union([z.number().int().min(1).max(10), z.null()])
-      .optional(),
-    mechanics_notes: z.string().optional(),
-    focus_next: z.boolean().optional().default(false),
-  })
-  .superRefine((row, ctx) => {
-    if (!ALLOWED_SKILL_PAIR_KEYS.has(skillPairKey(row.category, row.skill))) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `Unknown category/skill: "${row.category}" / "${row.skill}" (must match evaluation-skills constants exactly)`,
-        path: ["skill"],
-      });
-    }
-  });
+/** Row shape without category/skill pair validation (refined at root). */
+const importItemLooseSchema = z.object({
+  category: z.string(),
+  skill: z.string(),
+  score: z
+    .union([z.number().int().min(1).max(10), z.null()])
+    .optional(),
+  mechanics_notes: z.string().optional(),
+  focus_next: z.boolean().optional().default(false),
+});
 
-export const EvaluationImportSchema = z
-  .object({
-    player: z.string().min(1, "player is required"),
-    session_date: z
-      .string()
-      .regex(/^\d{4}-\d{2}-\d{2}$/, "session_date must be YYYY-MM-DD"),
-    session_number: z
-      .number()
-      .int("session_number must be a whole number")
-      .min(1, "session_number must be at least 1"),
-    overall_notes: z.string().optional(),
-    development_plan: z.string().optional(),
-    items: z.array(importItemSchema).default([]),
-    /** Structured report (HTML parity). Requires at least this or one valid grid item. */
-    rich_report: richReportV1Schema.optional(),
-  })
+const evaluationImportBaseSchema = z.object({
+  player: z.string().min(1, "player is required"),
+  session_date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "session_date must be YYYY-MM-DD"),
+  session_number: z
+    .number()
+    .int("session_number must be a whole number")
+    .min(1, "session_number must be at least 1"),
+  overall_notes: z.string().optional(),
+  development_plan: z.string().optional(),
+  items: z.array(importItemLooseSchema).default([]),
+  /** Structured report (HTML parity). Requires at least this or one valid grid item. */
+  rich_report: richReportV1Schema.optional(),
+});
+
+function isCanonicalItemPair(category: string, skill: string): boolean {
+  return ALLOWED_SKILL_PAIR_KEYS.has(skillPairKey(category, skill));
+}
+
+export const EvaluationImportSchema = evaluationImportBaseSchema
   .superRefine((data, ctx) => {
     const hasRich = data.rich_report != null;
-    const hasItems = data.items.length > 0;
+    const rawItemCount = data.items.length;
+    const canonicalCount = data.items.filter((row) =>
+      isCanonicalItemPair(row.category, row.skill),
+    ).length;
     const hasSessionText =
       (data.overall_notes?.trim() ?? "").length > 0 ||
       (data.development_plan?.trim() ?? "").length > 0;
-    if (!hasRich && !hasItems && !hasSessionText) {
+
+    if (!hasRich && canonicalCount === 0 && !hasSessionText) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message:
-          "Provide rich_report and/or items[], or at least overall_notes or development_plan for a session-only import.",
+          rawItemCount > 0
+            ? "All items[] rows were dropped: none matched the evaluation grid (category/skill must match evaluation-skills exactly). Add rich_report, fix grid names, or add overall_notes / development_plan."
+            : "Provide rich_report and/or canonical items[], or at least overall_notes or development_plan for a session-only import.",
         path: ["items"],
       });
     }
+
     const seen = new Set<string>();
     for (let i = 0; i < data.items.length; i++) {
       const item = data.items[i];
+      if (!isCanonicalItemPair(item.category, item.skill)) {
+        continue;
+      }
       const k = skillPairKey(item.category, item.skill);
       if (seen.has(k)) {
         ctx.addIssue({
@@ -71,7 +77,13 @@ export const EvaluationImportSchema = z
       }
       seen.add(k);
     }
-  });
+  })
+  .transform((data) => ({
+    ...data,
+    items: data.items.filter((row) =>
+      isCanonicalItemPair(row.category, row.skill),
+    ),
+  }));
 
 export type EvaluationImport = z.infer<typeof EvaluationImportSchema>;
 
