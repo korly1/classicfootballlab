@@ -4,17 +4,9 @@ import { useState, useTransition } from "react";
 
 import { createImportedEvaluation } from "../actions";
 import type { EvaluationImport } from "../schemas/evaluation-import-schema";
-import { RichEvaluationReport } from "./rich-evaluation-report";
+import { formatCalendarDateLong } from "@/lib/format-calendar-date";
 
-function formatSessionDate(iso: string): string {
-  const d = new Date(iso + "T12:00:00");
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
+import { RichEvaluationReport } from "./rich-evaluation-report";
 
 type Props = {
   playerId: string;
@@ -33,7 +25,7 @@ export function RichImportPreview({ playerId, playerName, data }: Props) {
     <div className="mt-8 space-y-6">
       <RichEvaluationReport
         playerName={playerName}
-        sessionDateFormatted={formatSessionDate(data.session_date)}
+        sessionDateFormatted={formatCalendarDateLong(data.session_date)}
         overallNotes={data.overall_notes}
         developmentPlan={data.development_plan}
         rich={rich}

@@ -9,18 +9,12 @@ import {
 import { EvaluationSessionDateField } from "@/features/evaluations/components/evaluation-session-date-field";
 import { RichEvaluationReport } from "@/features/evaluations/components/rich-evaluation-report";
 import { parseRichReportV1 } from "@/features/evaluations/schemas/rich-report-schema";
+import {
+  formatCalendarDateShort,
+  formatPacificDateTime,
+} from "@/lib/format-calendar-date";
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/lib/supabase/database.types";
-
-function formatDate(iso: string): string {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
 
 type ItemRow = Tables<"evaluation_items">;
 
@@ -137,11 +131,7 @@ export default async function EvaluationDetailPage({
 
           {evaluation.updated_at ? (
             <p className="mt-1 text-xs text-cfl-gray/80">
-              Last updated{" "}
-              {new Date(evaluation.updated_at).toLocaleString(undefined, {
-                dateStyle: "medium",
-                timeStyle: "short",
-              })}
+              Last updated {formatPacificDateTime(evaluation.updated_at)}
             </p>
           ) : null}
 
@@ -149,10 +139,11 @@ export default async function EvaluationDetailPage({
             <div className="mt-8">
               <RichEvaluationReport
                 playerName={playerName}
-                sessionDateFormatted={formatDate(evaluation.session_date)}
+                sessionDateFormatted={formatCalendarDateShort(evaluation.session_date)}
                 overallNotes={evaluation.overall_notes}
                 developmentPlan={evaluation.development_plan}
                 rich={rich}
+                showHeaderSessionDate={false}
               />
             </div>
           ) : (

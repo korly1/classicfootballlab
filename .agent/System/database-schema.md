@@ -95,6 +95,8 @@ create policy "Coaches manage own evaluations"
   on public.evaluations for all using (coach_id = auth.uid());
 ```
 
+**Time convention:** `session_date` is a **Pacific (Los Angeles) civil calendar day** — coaches enter and read it as PT; the app stores the `YYYY-MM-DD` string in Postgres `date` with no UTC offset math. `created_at` / `updated_at` are `timestamptz` (UTC in Postgres); the UI formats those instants in Pacific via `formatPacificDateTime` in [`src/lib/format-calendar-date.ts`](../../src/lib/format-calendar-date.ts).
+
 ### evaluation_items
 
 One row per skill scored within an evaluation.

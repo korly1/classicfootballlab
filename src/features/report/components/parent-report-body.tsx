@@ -1,19 +1,10 @@
 import { RichEvaluationReport } from "@/features/evaluations/components/rich-evaluation-report";
 import { parseRichReportV1 } from "@/features/evaluations/schemas/rich-report-schema";
 import type { Tables } from "@/lib/supabase/database.types";
+import { formatCalendarDateLong } from "@/lib/format-calendar-date";
 
 type EvalRow = Tables<"evaluations">;
 type ItemRow = Tables<"evaluation_items">;
-
-function formatSessionDate(iso: string): string {
-  const d = new Date(iso.includes("T") ? iso : `${iso}T12:00:00`);
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
 
 function groupItemsByCategory(items: ItemRow[]): Map<string, ItemRow[]> {
   const map = new Map<string, ItemRow[]>();
@@ -51,7 +42,7 @@ export function ParentReportBody({
         playerName={playerName}
         playerLevel={playerLevel}
         playerClub={playerClub}
-        sessionDateFormatted={formatSessionDate(evaluation.session_date)}
+        sessionDateFormatted={formatCalendarDateLong(evaluation.session_date)}
         overallNotes={evaluation.overall_notes}
         developmentPlan={evaluation.development_plan}
         rich={rich}
@@ -71,7 +62,7 @@ export function ParentReportBody({
       </h2>
       <p className="mt-2 text-sm text-cfl-gray">
         Session {evaluation.session_number} ·{" "}
-        {formatSessionDate(evaluation.session_date)}
+        {formatCalendarDateLong(evaluation.session_date)}
       </p>
       {levelClubLine ? (
         <p className="mt-1 text-sm text-cfl-gray">{levelClubLine}</p>

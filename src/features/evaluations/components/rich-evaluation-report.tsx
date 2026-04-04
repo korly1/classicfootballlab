@@ -75,6 +75,8 @@ export type RichEvaluationReportProps = {
   /** Profile fields from DB (optional; shown when set). */
   playerLevel?: string | null;
   playerClub?: string | null;
+  /** When false, hides the header line (e.g. admin page already has a session date editor). */
+  showHeaderSessionDate?: boolean;
 };
 
 export function RichEvaluationReport({
@@ -85,6 +87,7 @@ export function RichEvaluationReport({
   rich,
   playerLevel,
   playerClub,
+  showHeaderSessionDate = true,
 }: RichEvaluationReportProps) {
   const levelClubLine = [playerLevel?.trim(), playerClub?.trim()]
     .filter(Boolean)
@@ -99,9 +102,11 @@ export function RichEvaluationReport({
         <h2 className="font-[family-name:var(--font-bebas-neue)] text-3xl tracking-widest text-cfl-white">
           {playerName}
         </h2>
-        <p className="mt-2 text-sm text-cfl-gray">
-          Session date: {sessionDateFormatted}
-        </p>
+        {showHeaderSessionDate ? (
+          <p className="mt-2 text-sm text-cfl-gray">
+            Session date: {sessionDateFormatted}
+          </p>
+        ) : null}
         {levelClubLine ? (
           <p className="mt-1 text-sm text-cfl-gray">{levelClubLine}</p>
         ) : null}

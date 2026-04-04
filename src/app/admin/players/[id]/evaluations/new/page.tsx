@@ -3,15 +3,8 @@ import { notFound } from "next/navigation";
 
 import { NewEvaluationForm } from "@/features/evaluations/components/new-evaluation-form";
 import { buildDefaultSkillRows } from "@/features/evaluations/schemas/manual-evaluation-schema";
+import { pacificTodayIsoDate } from "@/lib/format-calendar-date";
 import { createClient } from "@/lib/supabase/server";
-
-function todayIsoDate(): string {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
 
 export default async function NewEvaluationPage({
   params,
@@ -63,7 +56,7 @@ export default async function NewEvaluationPage({
         playerId={player.id}
         playerName={player.full_name}
         defaultValues={{
-          session_date: todayIsoDate(),
+          session_date: pacificTodayIsoDate(),
           session_number: defaultSessionNumber,
           overall_notes: "",
           development_plan: "",

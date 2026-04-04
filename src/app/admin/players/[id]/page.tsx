@@ -6,18 +6,8 @@ import { ReactivatePlayerButton } from "@/features/players/components/reactivate
 import { ageFromBirthYear } from "@/features/players/lib/age-from-birth-year";
 import { PlayerShareEnabledToggle } from "@/features/players/components/player-share-enabled-toggle";
 import { playerReportShareUrl } from "@/features/players/lib/share-url";
+import { formatCalendarDateShort } from "@/lib/format-calendar-date";
 import { createClient } from "@/lib/supabase/server";
-
-function formatDate(iso: string | null): string {
-  if (!iso) return "—";
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
 
 export default async function PlayerProfilePage({
   params,
@@ -195,7 +185,7 @@ export default async function PlayerProfilePage({
                   <span>
                     Session {ev.session_number ?? "—"}
                     {ev.session_date
-                      ? ` · ${formatDate(ev.session_date)}`
+                      ? ` · ${formatCalendarDateShort(ev.session_date)}`
                       : null}
                   </span>
                   <span className="text-sm text-cfl-gray">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Users } from "lucide-react";
 
 import { DashboardQuickEval } from "@/features/evaluations/components/dashboard-quick-eval";
+import { DashboardPlayerAccordionList } from "@/features/players/components/dashboard-player-accordion-list";
 import { ReactivatePlayerButton } from "@/features/players/components/reactivate-player-button";
 import { createClient } from "@/lib/supabase/server";
 
@@ -80,6 +81,49 @@ export default async function AdminDashboardPage({
     full_name: p.full_name,
   }));
 
+  const playerIds = players.map((p) => p.id);
+  const sessionsByPlayer = new Map<
+    string,
+    {
+      id: string;
+      session_date: string;
+      session_number: number;
+      is_published: boolean;
+    }[]
+  >();
+  for (const id of playerIds) {
+    sessionsByPlayer.set(id, []);
+  }
+
+  if (playerIds.length > 0) {
+    const { data: evalRows } = await supabase
+      .from("evaluations")
+      .select("id, player_id, session_date, session_number, is_published")
+      .in("player_id", playerIds)
+      .order("session_date", { ascending: false, nullsFirst: false })
+      .order("session_number", { ascending: false, nullsFirst: false });
+
+    for (const row of evalRows ?? []) {
+      const list = sessionsByPlayer.get(row.player_id);
+      if (list) {
+        list.push({
+          id: row.id,
+          session_date: row.session_date,
+          session_number: row.session_number,
+          is_published: row.is_published,
+        });
+      }
+    }
+  }
+
+  const dashboardPlayers = players.map((p) => ({
+    id: p.id,
+    full_name: p.full_name,
+    club: p.club,
+    level: p.level,
+    sessions: sessionsByPlayer.get(p.id) ?? [],
+  }));
+
   return (
     <div>
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -100,40 +144,7 @@ export default async function AdminDashboardPage({
       </div>
 
       {players.length > 0 ? (
-        <ul className="mt-6 flex flex-col gap-2">
-          {players.map((p) => (
-            <li
-              key={p.id}
-              className="flex flex-col gap-3 rounded border border-cfl-gold/20 bg-cfl-navy-light/30 px-4 py-3 transition hover:border-cfl-gold/50 sm:flex-row sm:items-center sm:justify-between"
-            >
-              <Link
-                href={`/admin/players/${p.id}`}
-                className="min-w-0 flex-1 text-cfl-white transition hover:text-cfl-gold"
-              >
-                <span className="font-medium">{p.full_name}</span>
-                {(p.club || p.level) && (
-                  <span className="mt-1 block text-sm text-cfl-gray">
-                    {[p.club, p.level].filter(Boolean).join(" · ")}
-                  </span>
-                )}
-              </Link>
-              <div className="flex w-full flex-shrink-0 flex-wrap gap-2 sm:w-auto sm:justify-end">
-                <Link
-                  href={`/admin/players/${p.id}/evaluations/new`}
-                  className={rowEvalLinkClass}
-                >
-                  New evaluation
-                </Link>
-                <Link
-                  href={`/admin/players/${p.id}/evaluations/import`}
-                  className={rowEvalLinkClass}
-                >
-                  Import
-                </Link>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <DashboardPlayerAccordionList items={dashboardPlayers} />
       ) : (
         <p className="mt-6 text-sm text-cfl-gray">
           No active players. Use inactive list below to reactivate someone.
