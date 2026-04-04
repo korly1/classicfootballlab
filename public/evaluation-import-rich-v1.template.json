@@ -23,9 +23,14 @@
     },
     "technique_summary": [
       {
-        "name": "Example technique",
+        "name": "Technique title for progress bar (JSON key must be name — not technique)",
         "category": "Passing",
         "lowest_stage": "working"
+      },
+      {
+        "name": "Another technique",
+        "category": "Shooting",
+        "lowest_stage": "identified"
       }
     ],
     "technical_evaluation": [

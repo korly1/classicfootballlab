@@ -1,1 +1,5 @@
 Full worked example (Bianca, HTML parity): src/features/evaluations/__fixtures__/bianca_rich_v1.import.json — use that file as the gold standard when generating JSON for Claude. This template.json is intentionally minimal.
+
+Schema reminder for generators:
+- rich_report.technique_summary[]: each entry MUST use the string field "name" for the technique label (progress per technique). Do NOT use "technique", "title", or "label" as the key — validation expects "name" only.
+- rich_report.technical_evaluation[].techniques[]: each technique uses "name" as well (same rule).

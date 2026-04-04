@@ -57,11 +57,22 @@ export const richReportV1Schema = z.object({
     mastered: z.number().int().min(0),
   }),
   technique_summary: z.array(
-    z.object({
+    z.preprocess((val) => {
+      if (val && typeof val === "object" && !Array.isArray(val)) {
+        const o = val as Record<string, unknown>;
+        const nameRaw = o.name ?? o.technique ?? o.title ?? o.label;
+        return {
+          name: typeof nameRaw === "string" ? nameRaw.trim() : "",
+          category: typeof o.category === "string" ? o.category : "",
+          lowest_stage: o.lowest_stage,
+        };
+      }
+      return val;
+    }, z.object({
       name: z.string().min(1),
       category: z.string(),
       lowest_stage: skillStageSchema,
-    }),
+    })),
   ),
   technical_evaluation: z.array(technicalCategorySchema),
   /** Free text or bullet strings for “upcoming sessions”. */
