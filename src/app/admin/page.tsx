@@ -22,7 +22,7 @@ export default async function AdminDashboardPage({
   const supabase = await createClient();
   const { data: activePlayers } = await supabase
     .from("players")
-    .select("id, full_name, club, level")
+    .select("id, full_name, club, level, share_enabled")
     .eq("is_active", true)
     .order("full_name");
 
@@ -121,6 +121,7 @@ export default async function AdminDashboardPage({
     full_name: p.full_name,
     club: p.club,
     level: p.level,
+    share_enabled: p.share_enabled,
     sessions: sessionsByPlayer.get(p.id) ?? [],
   }));
 

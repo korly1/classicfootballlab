@@ -18,6 +18,7 @@ export type DashboardPlayerRow = {
   full_name: string;
   club: string | null;
   level: string | null;
+  share_enabled: boolean;
   sessions: DashboardSessionRow[];
 };
 
@@ -68,17 +69,37 @@ export function DashboardPlayerAccordionList({ items }: Props) {
                   </span>
                 </button>
                 <div className="min-w-0 flex-1">
-                  <Link
-                    href={`/admin/players/${p.id}`}
-                    className="block text-cfl-white transition hover:text-cfl-gold"
-                  >
-                    <span className="font-medium">{p.full_name}</span>
-                    {(p.club || p.level) && (
-                      <span className="mt-1 block text-sm text-cfl-gray">
-                        {[p.club, p.level].filter(Boolean).join(" · ")}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Link
+                      href={`/admin/players/${p.id}`}
+                      className="text-cfl-white transition hover:text-cfl-gold"
+                    >
+                      <span className="font-medium">{p.full_name}</span>
+                    </Link>
+                    {p.share_enabled ? (
+                      <span
+                        className="shrink-0 rounded border border-cfl-green/50 px-2 py-0.5 font-[family-name:var(--font-bebas-neue)] text-[0.65rem] tracking-wide text-cfl-green"
+                        title="Parent report link is on"
+                      >
+                        Report shared
+                      </span>
+                    ) : (
+                      <span
+                        className="shrink-0 rounded border border-white/15 px-2 py-0.5 font-[family-name:var(--font-bebas-neue)] text-[0.65rem] tracking-wide text-cfl-gray"
+                        title="Parent report link is off"
+                      >
+                        Not shared
                       </span>
                     )}
-                  </Link>
+                  </div>
+                  {(p.club || p.level) && (
+                    <Link
+                      href={`/admin/players/${p.id}`}
+                      className="mt-1 block text-sm text-cfl-gray transition hover:text-cfl-gold"
+                    >
+                      {[p.club, p.level].filter(Boolean).join(" · ")}
+                    </Link>
+                  )}
                 </div>
               </div>
               <div className="flex w-full flex-shrink-0 flex-wrap gap-2 sm:w-auto sm:justify-end">

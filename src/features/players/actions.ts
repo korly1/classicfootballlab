@@ -218,6 +218,7 @@ export async function setPlayerShareEnabled(
     }
 
     revalidatePath(`/admin/players/${playerId}`);
+    revalidatePath("/admin");
     revalidateParentReportPaths(row.share_token);
     return { ok: true, shareEnabled: true, parentPin: plainPin };
   }
@@ -242,6 +243,7 @@ export async function setPlayerShareEnabled(
   }
 
   revalidatePath(`/admin/players/${playerId}`);
+  revalidatePath("/admin");
   revalidateParentReportPaths(row.share_token);
   return { ok: true, shareEnabled: false };
 }
