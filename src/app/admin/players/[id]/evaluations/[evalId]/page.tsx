@@ -6,6 +6,7 @@ import {
   PublishDraftButton,
   PublishThenShareButton,
 } from "@/features/evaluations/components/evaluation-publish-actions";
+import { EvaluationSessionDateField } from "@/features/evaluations/components/evaluation-session-date-field";
 import { RichEvaluationReport } from "@/features/evaluations/components/rich-evaluation-report";
 import { parseRichReportV1 } from "@/features/evaluations/schemas/rich-report-schema";
 import { createClient } from "@/lib/supabase/server";
@@ -127,10 +128,12 @@ export default async function EvaluationDetailPage({
             )}
           </div>
 
-          <p className="mt-2 text-sm text-cfl-gray">
-            Session {evaluation.session_number} ·{" "}
-            {formatDate(evaluation.session_date)}
-          </p>
+          <EvaluationSessionDateField
+            playerId={id}
+            evalId={evalId}
+            sessionNumber={evaluation.session_number}
+            initialSessionDate={evaluation.session_date}
+          />
 
           {evaluation.updated_at ? (
             <p className="mt-1 text-xs text-cfl-gray/80">

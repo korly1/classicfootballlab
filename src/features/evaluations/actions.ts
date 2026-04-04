@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 
 import { createClient } from "@/lib/supabase/server";
 
@@ -16,6 +17,11 @@ import {
 
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+const sessionDateOnlySchema = z
+  .string()
+  .trim()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "Use a valid date (YYYY-MM-DD)");
 
 function invalidId(): { error: string } {
   return { error: "Invalid id." };
@@ -228,6 +234,74 @@ export async function publishEvaluation(
 
   revalidatePath(`/admin/players/${playerId}/evaluations/${evalId}`);
   revalidatePath(`/admin/players/${playerId}`);
+  return undefined;
+}
+
+/** Updates calendar session date (evaluation row). */
+export async function updateEvaluationSessionDate(
+  playerId: string,
+  evalId: string,
+  sessionDate: unknown,
+): Promise<{ error: string } | undefined> {
+  if (!UUID_RE.test(playerId) || !UUID_RE.test(evalId)) {
+    return invalidId();
+  }
+
+  const parsed = sessionDateOnlySchema.safeParse(
+    typeof sessionDate === "string" ? sessionDate : "",
+  );
+  if (!parsed.success) {
+    const first = parsed.error.issues[0];
+    return { error: first?.message ?? "Invalid date." };
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: "You must be signed in." };
+  }
+
+  const { data: row, error: fetchError } = await supabase
+    .from("evaluations")
+    .select("id, coach_id")
+    .eq("id", evalId)
+    .eq("player_id", playerId)
+    .maybeSingle();
+
+  if (fetchError) {
+    return { error: fetchError.message };
+  }
+  if (!row || row.coach_id !== user.id) {
+    return { error: "Evaluation not found." };
+  }
+
+  const now = new Date().toISOString();
+  const { error: updateError } = await supabase
+    .from("evaluations")
+    .update({ session_date: parsed.data, updated_at: now })
+    .eq("id", evalId)
+    .eq("player_id", playerId)
+    .eq("coach_id", user.id);
+
+  if (updateError) {
+    return { error: updateError.message };
+  }
+
+  const { data: playerRow } = await supabase
+    .from("players")
+    .select("share_token")
+    .eq("id", playerId)
+    .maybeSingle();
+
+  revalidatePath(`/admin/players/${playerId}/evaluations/${evalId}`);
+  revalidatePath(`/admin/players/${playerId}`);
+  if (playerRow?.share_token) {
+    revalidatePath(`/report/${playerRow.share_token}`);
+    revalidatePath(`/report/${playerRow.share_token}/view`);
+  }
+
   return undefined;
 }
 

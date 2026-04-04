@@ -42,7 +42,7 @@ Use this when generating an import file for **Classic Football Lab** (admin → 
 
 - Long session summary → **`overall_notes`** (renders as “Coach’s note”).
 - Priorities / next-session focus → **`development_plan`**.
-- Date + coach sign-off line → **`coach_attribution`** (e.g. `March 30, 2025 · Coach Name`).
+- Date + coach sign-off line → **`coach_attribution`** (e.g. `March 30, 2026 · Coach Name`).
 - Position, flight, age labels → **`player_tags`**.
 
 ### Session overview and snapshot

@@ -1,6 +1,6 @@
 {
   "player": "Bianca",
-  "session_date": "2025-03-30",
+  "session_date": "2026-03-30",
   "session_number": 1,
   "overall_notes": "Great athleticism and a great growth mindset. Bianca is not just open to feedback — she's happy to hear it and applies corrections right away, with the attitude of someone who genuinely wants to be great at this. Positive energy throughout every drill. She learns fast and already made real progress in this first session. Translating mechanics from drills into other contexts takes time and consistency, and that's completely normal at this stage. I look forward to keeping working with her. She's the kind of player that makes you want to train non-stop.",
   "development_plan": "Priority focus is the hip angle on approach — fixing this one root cause will carry over to passing, shooting, and finishing. Secondary focus: last step length before planting and balance loss transitioning from dribble to shot. Ball control and first touch to continue in parallel.",
@@ -63,7 +63,7 @@
       "Age 15",
       "Individual training"
     ],
-    "coach_attribution": "March 30, 2025 · Eduardo Mylonas da Silva",
+    "coach_attribution": "March 30, 2026 · Eduardo Mylonas da Silva",
     "session_overview": {
       "techniques_evaluated": 6,
       "mechanics_tracked": 13,
@@ -133,7 +133,7 @@
                 ],
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Hip rotating early on approach. Contact angled, not flush. Affects accuracy.",
                     "change": "not-evaluated → identified → showing improvement"
                   }
@@ -146,7 +146,7 @@
                 "also_affects": ["long ground pass", "power shot"],
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Not twisting through the foot enough at contact.",
                     "change": "not-evaluated → identified → showing improvement"
                   }
@@ -158,7 +158,7 @@
                 "description": "Not rotating the knee at the appropriate moment during contact. Affects the quality and direction of the pass.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Not twisting at the appropriate moment.",
                     "change": "not-evaluated → showing improvement"
                   }
@@ -176,7 +176,7 @@
                 "description": "Same hip angle issue as the inside-of-foot pass, more pronounced at longer distances.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Same hip angle issue, more pronounced at longer distances.",
                     "change": "not-evaluated → identified"
                   }
@@ -188,7 +188,7 @@
                 "description": "Upper body balance breaks down on approach. Affects contact quality and consistency on longer passes.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Balance off on approach, affects consistency of contact.",
                     "change": "not-evaluated → identified"
                   }
@@ -200,7 +200,7 @@
                 "description": "Not twisting through at contact — reduces power on longer passes.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Not twisting through at contact — reduces power on longer passes.",
                     "change": "not-evaluated → identified"
                   }
@@ -224,7 +224,7 @@
                 "also_affects": ["finishing from crosses", "control and finish"],
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Same muscle memory pattern as passing — hip rotates early, contact angled.",
                     "change": "not-evaluated → identified → showing improvement"
                   }
@@ -237,7 +237,7 @@
                 "also_affects": ["finishing from crosses", "control and finish"],
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Last step too long — visible balance disruption before planting.",
                     "change": "not-evaluated → identified → working on it"
                   }
@@ -249,7 +249,7 @@
                 "description": "Balance breaks down on approach, especially at speed. Affects contact quality on every shot.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Balance breaks down on approach, especially at speed.",
                     "change": "not-evaluated → identified → working on it"
                   }
@@ -261,7 +261,7 @@
                 "description": "Not twisting through the ball enough at contact. Reduces shot power.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Not twisting through ball enough. Reduces shot power.",
                     "change": "not-evaluated → identified → working on it"
                   }
@@ -284,7 +284,7 @@
                 "description": "Loses balance just before contact when receiving and finishing. The technique applied correctly in isolated drills doesn't carry over at speed.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Loses balance before contact. Peito de pé doesn't transfer at speed.",
                     "change": "not-evaluated → identified → working on it"
                   }
@@ -296,7 +296,7 @@
                 "description": "Chapa attempts breaking down — same hip angle root cause as passing and shooting.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Chapa attempts breaking down — same hip angle root cause.",
                     "change": "not-evaluated → identified → working on it"
                   }
@@ -308,7 +308,7 @@
                 "description": "Last step too long, disrupting balance before contact.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Last step too long disrupting balance before contact.",
                     "change": "not-evaluated → identified → working on it"
                   }
@@ -326,7 +326,7 @@
                 "description": "Balance loss before contact in control-and-finish drill. Same pattern as dribble-to-shot.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Balance loss before contact in control-and-finish drill.",
                     "change": "not-evaluated → identified → working on it"
                   }
@@ -338,7 +338,7 @@
                 "description": "Chapa finish breaking down — hip angle issue carries over from passing and shooting.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Chapa finish breaking down — hip angle issue carries over.",
                     "change": "not-evaluated → identified → working on it"
                   }
@@ -361,7 +361,7 @@
                 "description": "Touches too heavy during dribbling — hitting the ball rather than guiding it. Ball gets away during close-control sequences.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Ball getting away during sequences — touches too heavy.",
                     "change": "not-evaluated → identified → showing improvement"
                   }
@@ -373,7 +373,7 @@
                 "description": "Not consistently using the correct foot per direction. Left foot going left, right foot going right. Direction changes must use the inside of the foot on the side being left.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Inconsistent foot selection per direction. Direction changes especially unclear.",
                     "change": "not-evaluated → identified → showing improvement"
                   }
@@ -391,7 +391,7 @@
                 "description": "First touch too heavy and not directional enough. In the rope-bounded zone drill, she kept the ball inside less than half the time.",
                 "history": [
                   {
-                    "date": "Mar 30, 2025",
+                    "date": "Mar 30, 2026",
                     "note": "Less than 50% success in zone drill. Ball escaping on receive consistently.",
                     "change": "not-evaluated → identified → working on it"
                   }
