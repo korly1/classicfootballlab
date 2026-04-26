@@ -5,6 +5,7 @@
 | File                                        | URL                         | Auth     |
 | ------------------------------------------- | --------------------------- | -------- |
 | `src/app/(public)/page.tsx`                 | `/`                         | None     |
+| `src/app/(public)/faq/page.tsx`             | `/faq`                      | None     |
 | `src/app/login/page.tsx`                    | `/login`                    | None     |
 | `src/app/admin/page.tsx`                    | `/admin`                    | Coach    |
 | `src/app/admin/players/new/page.tsx`          | `/admin/players/new`        | Coach    |

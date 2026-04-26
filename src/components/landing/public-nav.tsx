@@ -19,6 +19,7 @@ export function PublicNav() {
   const isHome = pathname === "/";
   const isHow = pathname === "/how-it-works";
   const isMethod = pathname === "/method";
+  const isFaq = pathname === "/faq";
 
   return (
     <header className="fixed top-0 z-[1000] flex h-[60px] w-full items-center justify-between border-b border-cfl-gold/10 bg-cfl-navy/92 px-8 backdrop-blur-md transition-all">
@@ -85,6 +86,13 @@ export function PublicNav() {
           onClick={close}
         >
           The Method
+        </Link>
+        <Link
+          className={cn(navLinkClass, isFaq && "border-cfl-gold text-cfl-gold")}
+          href="/faq"
+          onClick={close}
+        >
+          FAQ
         </Link>
         <a
           className="font-[family-name:var(--font-bebas-neue)] bg-cfl-green px-6 py-2 text-sm tracking-[0.15em] text-cfl-white-pure transition-colors hover:bg-cfl-gold hover:text-cfl-navy"
