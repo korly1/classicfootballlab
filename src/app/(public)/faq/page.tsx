@@ -12,7 +12,7 @@ const FAQ: FaqItem[] = [
     question: "How do we get started?",
     answer: (
       <>
-        We start with a quick call to understand the athlete’s current level,
+        We start with a quick talk to understand the athlete’s current level,
         goals, training location, and availability (time slots). We prefer{" "}
         <b>WhatsApp</b>, but we can also do text messages, email, or a phone
         call. From there, we schedule the first session.
@@ -80,7 +80,7 @@ const FAQ: FaqItem[] = [
     answer: (
       <>
         Yes. Different positions demand certain skills and mechanics more than
-        others. We discuss this during the phone call and throughout training.
+        others. We discuss this during our talk and throughout training.
       </>
     ),
   },
@@ -101,8 +101,8 @@ const FAQ: FaqItem[] = [
     question: "Do you offer group sessions?",
     answer: (
       <>
-        Yes. Group sessions have different rates depending on group size and
-        logistics. Please get in touch and we’ll discuss the specifics.
+        Yes, small groups. Group sessions have different rates depending on group
+        size and logistics. Please get in touch and we’ll discuss the specifics.
       </>
     ),
   },
@@ -134,7 +134,7 @@ const FAQ: FaqItem[] = [
         Water, weather-appropriate training clothes, and the cleats the athlete
         already has (turf or regular grass). We provide the balls, goals, cones,
         ropes, and other training materials. We’ll confirm the exact field setup
-        on the phone call.
+        ahead of time.
       </>
     ),
   },
@@ -223,7 +223,7 @@ const FAQ: FaqItem[] = [
     question: "How do we pay?",
     answer: (
       <>
-        We’ll confirm the easiest payment method during the initial phone call.
+        We’ll confirm the easiest payment method during the initial talk.
         If you have a preference, let us know and we’ll do our best to
         accommodate.
       </>
