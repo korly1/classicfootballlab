@@ -179,6 +179,67 @@ export type SetPlayerShareEnabledResult =
   | { ok: true; shareEnabled: false }
   | { ok: false; error: string };
 
+export type ResetPlayerSharePinResult =
+  | { ok: true; parentPin: string }
+  | { ok: false; error: string };
+
+/** New PIN while keeping sharing on. Old PIN stops working immediately. */
+export async function resetPlayerSharePin(
+  playerId: string,
+): Promise<ResetPlayerSharePinResult> {
+  if (!UUID_RE.test(playerId)) {
+    return { ok: false, error: invalidId().error };
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { ok: false, error: "You must be signed in." };
+  }
+
+  const { data: existing } = await supabase
+    .from("players")
+    .select("share_enabled, share_token")
+    .eq("id", playerId)
+    .eq("coach_id", user.id)
+    .maybeSingle();
+
+  if (!existing) {
+    return { ok: false, error: "Player not found." };
+  }
+  if (!existing.share_enabled) {
+    return {
+      ok: false,
+      error: "Turn on the parent report link before issuing a PIN.",
+    };
+  }
+
+  const plainPin = generateParentPin();
+  const share_pin = await bcrypt.hash(plainPin, 10);
+  const { error } = await supabase
+    .from("players")
+    .update({
+      share_pin,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", playerId)
+    .eq("coach_id", user.id);
+
+  if (error) {
+    return { ok: false, error: error.message };
+  }
+
+  revalidatePath(`/admin/players/${playerId}`);
+  revalidatePath("/admin");
+  if (existing.share_token) {
+    revalidateParentReportPaths(existing.share_token);
+  }
+
+  return { ok: true, parentPin: plainPin };
+}
+
 export async function setPlayerShareEnabled(
   playerId: string,
   shareEnabled: boolean,

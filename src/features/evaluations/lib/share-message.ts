@@ -27,12 +27,7 @@ export function buildParentShareMessage({
     `View the report: ${shareUrl}`,
   ];
   if (pin?.trim()) {
-    lines.push("", `PIN: ${pin.trim()}`);
-  } else {
-    lines.push(
-      "",
-      "Use the PIN you received when we first shared the report link.",
-    );
+    lines.push("", `Your PIN: ${pin.trim()}`);
   }
   lines.push("", "— Classic Football Lab");
   return lines.join("\n");

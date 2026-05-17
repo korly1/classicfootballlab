@@ -8,11 +8,14 @@ import { setPlayerShareEnabled } from "../actions";
 type Props = {
   playerId: string;
   initialEnabled: boolean;
+  /** Called when a new plain-text PIN is generated (enable or reset elsewhere). */
+  onPinKnown?: (pin: string) => void;
 };
 
 export function PlayerShareEnabledToggle({
   playerId,
   initialEnabled,
+  onPinKnown,
 }: Props) {
   const router = useRouter();
   const [enabled, setEnabled] = useState(initialEnabled);
@@ -42,13 +45,14 @@ export function PlayerShareEnabledToggle({
         }
         if (result.shareEnabled) {
           setShownPin(result.parentPin);
+          onPinKnown?.(result.parentPin);
         } else {
           setShownPin(null);
         }
         router.refresh();
       });
     },
-    [enabled, playerId, router],
+    [enabled, onPinKnown, playerId, router],
   );
 
   const copyPin = useCallback(() => {
@@ -129,8 +133,9 @@ export function PlayerShareEnabledToggle({
         </div>
       ) : enabled ? (
         <p className="mt-3 text-xs text-cfl-gray">
-          Sharing is on. Need a new PIN? Turn off, then on again (the old PIN
-          stops working).
+          Sharing is on. The PIN is not shown again for security — use{" "}
+          <strong>Issue new PIN</strong> on the share page if you need to send
+          it to the parent (the old PIN will stop working).
         </p>
       ) : null}
 
