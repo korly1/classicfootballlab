@@ -1,6 +1,7 @@
 "use client";
 
 import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -124,6 +125,12 @@ export function LoginForm() {
           {authError}
         </p>
       ) : null}
+      <Link
+        className="text-center text-sm text-cfl-gold hover:underline"
+        href="/login/forgot-password"
+      >
+        Forgot password?
+      </Link>
       <button
         type="submit"
         disabled={isSubmitting}

@@ -107,13 +107,13 @@ export function DashboardPlayerAccordionList({ items }: Props) {
                   href={`/admin/players/${p.id}/evaluations/new`}
                   className={rowEvalLinkClass}
                 >
-                  New evaluation
+                  New manual evaluation
                 </Link>
                 <Link
                   href={`/admin/players/${p.id}/evaluations/import`}
                   className={rowEvalLinkClass}
                 >
-                  Import
+                  Import JSON evaluation
                 </Link>
               </div>
             </div>

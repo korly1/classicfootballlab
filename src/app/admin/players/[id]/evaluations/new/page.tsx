@@ -50,7 +50,7 @@ export default async function NewEvaluationPage({
         ← Back to player
       </Link>
       <h1 className="mt-4 font-[family-name:var(--font-bebas-neue)] text-3xl tracking-widest text-cfl-gold">
-        New evaluation
+        New manual evaluation
       </h1>
       <NewEvaluationForm
         playerId={player.id}

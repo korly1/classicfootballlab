@@ -37,7 +37,7 @@ export default async function ImportEvaluationPage({
         ← Back to player
       </Link>
       <h1 className="mt-4 font-[family-name:var(--font-bebas-neue)] text-3xl tracking-widest text-cfl-gold">
-        Import evaluation
+        Import JSON evaluation
       </h1>
       <p className="mt-2 max-w-2xl text-sm text-cfl-gray">
         Upload a JSON file from Claude. After validation you can edit the full

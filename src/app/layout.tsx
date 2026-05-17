@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Barlow, Bebas_Neue } from "next/font/google";
 
+import { RecoveryHashRedirect } from "@/components/auth/recovery-hash-redirect";
 import { QueryProvider } from "@/components/providers/query-provider";
 
 import "./globals.css";
@@ -36,7 +37,10 @@ export default function RootLayout({
       className={`${bebasNeue.variable} ${barlow.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-cfl-navy font-[family-name:var(--font-barlow)] text-cfl-text-body">
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <RecoveryHashRedirect />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );

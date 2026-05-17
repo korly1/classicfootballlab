@@ -199,13 +199,13 @@ export default async function AdminDashboardPage({
                       href={`/admin/players/${p.id}/evaluations/new`}
                       className={rowEvalLinkClass}
                     >
-                      New evaluation
+                      New manual evaluation
                     </Link>
                     <Link
                       href={`/admin/players/${p.id}/evaluations/import`}
                       className={rowEvalLinkClass}
                     >
-                      Import
+                      Import JSON evaluation
                     </Link>
                     <div className="flex justify-center sm:inline-flex sm:justify-start">
                       <ReactivatePlayerButton playerId={p.id} />

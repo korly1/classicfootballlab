@@ -151,13 +151,13 @@ export default async function PlayerProfilePage({
               href={`/admin/players/${id}/evaluations/new`}
               className="rounded bg-cfl-gold px-4 py-2 text-sm font-medium text-cfl-navy transition hover:bg-cfl-gold/90"
             >
-              New Evaluation
+              New manual evaluation
             </Link>
             <Link
               href={`/admin/players/${id}/evaluations/import`}
               className="rounded border border-cfl-gold/40 px-4 py-2 text-sm text-cfl-gold transition hover:border-cfl-gold"
             >
-              Import JSON
+              Import JSON evaluation
             </Link>
           </div>
         </div>
@@ -171,7 +171,7 @@ export default async function PlayerProfilePage({
               href={`/admin/players/${id}/evaluations/new`}
               className="mt-4 inline-block rounded bg-cfl-gold px-5 py-2 text-sm font-medium text-cfl-navy transition hover:bg-cfl-gold/90"
             >
-              New Evaluation
+              New manual evaluation
             </Link>
           </div>
         ) : (

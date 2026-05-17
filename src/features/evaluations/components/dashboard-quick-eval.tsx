@@ -192,7 +192,7 @@ export function DashboardQuickEval({ players }: { players: PlayerOption[] }) {
           disabled={!playerId}
           onClick={goManual}
         >
-          Evaluate
+          New manual evaluation
         </button>
         <button
           type="button"
@@ -200,7 +200,7 @@ export function DashboardQuickEval({ players }: { players: PlayerOption[] }) {
           disabled={!playerId}
           onClick={goImport}
         >
-          Import
+          Import JSON evaluation
         </button>
       </div>
     </div>
