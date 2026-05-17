@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState, useTransition } from "react";
 
 import { setPlayerShareEnabled } from "../actions";
+import { ParentPinDisplay } from "./parent-pin-display";
 
 type Props = {
   playerId: string;
@@ -20,14 +21,12 @@ export function PlayerShareEnabledToggle({
   const router = useRouter();
   const [enabled, setEnabled] = useState(initialEnabled);
   const [shownPin, setShownPin] = useState<string | null>(null);
-  const [copyDone, setCopyDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
   const onToggle = useCallback(
     (next: boolean) => {
       setError(null);
-      setCopyDone(false);
       const previous = enabled;
       setEnabled(next);
       if (!next) {
@@ -54,14 +53,6 @@ export function PlayerShareEnabledToggle({
     },
     [enabled, onPinKnown, playerId, router],
   );
-
-  const copyPin = useCallback(() => {
-    if (!shownPin) return;
-    void navigator.clipboard.writeText(shownPin).then(() => {
-      setCopyDone(true);
-      window.setTimeout(() => setCopyDone(false), 2000);
-    });
-  }, [shownPin]);
 
   return (
     <div className="mt-4 rounded border border-cfl-gold/15 bg-cfl-navy-light/20 px-4 py-3">
@@ -111,26 +102,10 @@ export function PlayerShareEnabledToggle({
       </div>
 
       {shownPin ? (
-        <div
-          className="mt-4 rounded border border-cfl-green/40 bg-cfl-green/10 px-4 py-3"
-          role="status"
-        >
-          <p className="text-xs font-medium uppercase tracking-wide text-cfl-green">
-            Parent PIN — copy and share (stored hashed only)
-          </p>
-          <div className="mt-2 flex flex-wrap items-center gap-3">
-            <span className="font-mono text-2xl tracking-widest text-cfl-white">
-              {shownPin}
-            </span>
-            <button
-              type="button"
-              onClick={copyPin}
-              className="rounded border border-cfl-gold/50 px-3 py-1 text-xs font-medium text-cfl-gold transition hover:bg-cfl-gold/10"
-            >
-              {copyDone ? "Copied" : "Copy PIN"}
-            </button>
-          </div>
-        </div>
+        <ParentPinDisplay
+          pin={shownPin}
+          title="Parent PIN — copy and share (stored hashed only)"
+        />
       ) : enabled ? (
         <p className="mt-3 text-xs text-cfl-gray">
           Sharing is on. The PIN is not shown again for security — use{" "}

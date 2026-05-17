@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState, useTransition } from "react";
 
 import { buildParentShareMessage } from "@/features/evaluations/lib/share-message";
 import { resetPlayerSharePin } from "@/features/players/actions";
+import { ParentPinDisplay } from "@/features/players/components/parent-pin-display";
 import { PlayerShareEnabledToggle } from "@/features/players/components/player-share-enabled-toggle";
 import { formatCalendarDateShort } from "@/lib/format-calendar-date";
 
@@ -185,25 +186,20 @@ export function ShareEvaluationPanel(props: Props) {
           </div>
         ) : null}
         {knownPin ? (
-          <div
-            className="mt-4 rounded border border-cfl-green/40 bg-cfl-green/10 px-4 py-3"
-            role="status"
-          >
-            <p className="text-xs font-medium uppercase tracking-wide text-cfl-green">
-              PIN for this message
-            </p>
-            <p className="mt-2 font-mono text-2xl tracking-widest text-cfl-white">
-              {knownPin}
-            </p>
-            <button
-              type="button"
-              disabled={pinPending}
-              className="mt-3 rounded border border-cfl-gold/50 px-3 py-1 text-xs font-medium text-cfl-gold transition hover:bg-cfl-gold/10 disabled:opacity-50"
-              onClick={issueNewPin}
-            >
-              {pinPending ? "Generating…" : "Issue a different PIN"}
-            </button>
-          </div>
+          <ParentPinDisplay
+            pin={knownPin}
+            title="PIN for this message"
+            footer={
+              <button
+                type="button"
+                disabled={pinPending}
+                className="rounded border border-cfl-gold/50 px-3 py-1 text-xs font-medium text-cfl-gold transition hover:bg-cfl-gold/10 disabled:opacity-50"
+                onClick={issueNewPin}
+              >
+                {pinPending ? "Generating…" : "Issue a different PIN"}
+              </button>
+            }
+          />
         ) : null}
         {reportUrlSection}
       </section>
